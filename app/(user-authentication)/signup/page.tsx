@@ -33,11 +33,11 @@ export default function SignUpForm() {
       id={form.id}
       onSubmit={form.onSubmit}
       action={action}
-      className="bg-white p-10 rounded-xl flex flex-col gap-10"
+      className="bg-white rounded-xl flex flex-col gap-10"
       noValidate
     >
       <div>
-        <h1 className="text-grey-700 font-bold text-[2rem] mb-2">
+        <h1 className="text-grey-700 font-bold text-[1.5rem] mb-2">
           Create account
         </h1>
         <p className="text-grey-500">
@@ -103,18 +103,18 @@ export default function SignUpForm() {
         <p className="text-grey-500 text-[0.75rem]">
           Password must contain at least 8 characters
         </p>
+
+        <Button className="bg-purple-400 hover:bg-purple-300 focus:bg-purple-300 focus:shadow-lg/50 focus:shadow-purple-300 hover:shadow-lg/50 hover:shadow-purple-300  outline-none">
+          Create new account
+        </Button>
+
+        <p className="text-grey-500 text-center">
+          Already have an account? <br className="md:hidden" />
+          <Link className="text-purple-400" href="/login">
+            Login
+          </Link>
+        </p>
       </div>
-
-      <Button className="bg-purple-400 hover:bg-purple-300 focus:bg-purple-300 focus:shadow-lg/50 focus:shadow-purple-300 hover:shadow-lg/50 hover:shadow-purple-300  outline-none">
-        Create new account
-      </Button>
-
-      <p className="text-grey-500 text-center">
-        Already have an account?{" "}
-        <Link className="text-purple-400" href="/login">
-          Login
-        </Link>
-      </p>
     </form>
   );
 }

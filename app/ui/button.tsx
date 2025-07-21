@@ -9,7 +9,7 @@ export function Button({ children, className, ...rest }: ButtonProps) {
     <button
       {...rest}
       className={cn(
-        "flex justify-center rounded-lg text-white font-bold p-2",
+        "flex justify-center rounded-lg text-white font-bold px-6 py-3",
         className,
       )}
     >

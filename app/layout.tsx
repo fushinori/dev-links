@@ -18,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${instrumentSans.className} antialiased bg-grey-100`}>
+      <body
+        className={`${instrumentSans.className} antialiased bg-white md:bg-grey-100`}
+      >
         {children}
       </body>
     </html>

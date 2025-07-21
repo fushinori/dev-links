@@ -16,13 +16,13 @@ export default function Input({
     <div className="relative">
       <input
         className={cn(
-          "outline-none w-full border-grey-300 border-[1px] rounded-lg p-2 placeholder:text-grey-500 pl-10 focus:border-purple-400 focus:shadow-lg/65 focus:shadow-grey-300",
+          "outline-none w-full border-grey-300 border-[1px] rounded-lg px-4 py-3 placeholder:text-grey-500 pl-10 focus:border-purple-400 focus:shadow-lg/65 focus:shadow-grey-300",
           className,
         )}
         {...rest}
       />
       <Image
-        className="absolute top-[14px] left-[14px]"
+        className="absolute top-[16px] left-[16px]"
         src={icon}
         width={16}
         height={16}

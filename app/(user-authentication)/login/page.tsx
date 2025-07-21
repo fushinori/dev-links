@@ -34,11 +34,11 @@ export default function LoginForm() {
       id={form.id}
       onSubmit={form.onSubmit}
       action={action}
-      className="bg-white p-10 rounded-xl flex flex-col gap-10"
+      className="bg-white rounded-xl flex flex-col gap-10"
       noValidate
     >
       <div>
-        <h1 className="text-grey-700 font-bold text-[2rem] mb-2">Login</h1>
+        <h1 className="text-grey-700 font-bold text-[1.5rem] mb-2">Login</h1>
         <p className="text-grey-500">
           Add your details to get back into the app.
         </p>
@@ -78,17 +78,19 @@ export default function LoginForm() {
             className={fields.password.errors && "border-red-400"}
           />
         </div>
-      </div>
-      <Button className="bg-purple-400 hover:bg-purple-300 focus:bg-purple-300 focus:shadow-lg/50 focus:shadow-purple-300 hover:shadow-lg/50 hover:shadow-purple-300  outline-none">
-        Login
-      </Button>
 
-      <p className="text-grey-500 text-center">
-        Don&apos;t have an account?{" "}
-        <Link className="text-purple-400" href="/signup">
-          Create account
-        </Link>
-      </p>
+        <Button className="bg-purple-400 hover:bg-purple-300 focus:bg-purple-300 focus:shadow-lg/50 focus:shadow-purple-300 hover:shadow-lg/50 hover:shadow-purple-300  outline-none">
+          Login
+        </Button>
+
+        <div className="flex flex-col"></div>
+        <p className="text-grey-500 text-center">
+          Don&apos;t have an account? <br className="md:hidden" />
+          <Link className="text-purple-400" href="/signup">
+            Create account
+          </Link>
+        </p>
+      </div>
     </form>
   );
 }

@@ -6,8 +6,8 @@ export default function UserAuthenticationLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid min-h-screen place-items-center">
-      <div className="flex flex-col gap-4 items-center">
+    <div className="md:grid md:min-h-screen md:place-items-center p-8">
+      <div className="flex flex-col gap-16 md:items-center">
         <Image src="/logo-devlinks-large.svg" height={175} width={175} alt="" />
         {children}
       </div>
