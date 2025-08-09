@@ -20,3 +20,26 @@ export const SignUpSchema = BaseSignUpSchema.refine(
     path: ["confirmPassword"],
   },
 );
+
+// Possible links
+const websites = [
+  "github",
+  "frontendmentor",
+  "twitter",
+  "linkedin",
+  "youtube",
+  "facebook",
+  "twitch",
+  "dev.to",
+  "codewars",
+  "codepen",
+  "freecodecamp",
+  "gitlab",
+  "hashnode",
+  "stackoverflow",
+] as const;
+
+export const linkSchema = z.object({
+  website: z.enum(websites),
+  link: z.string(),
+});
