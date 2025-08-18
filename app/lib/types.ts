@@ -21,25 +21,20 @@ export const SignUpSchema = BaseSignUpSchema.refine(
   },
 );
 
-// Possible links
-const websites = [
-  "github",
-  "frontendmentor",
-  "twitter",
-  "linkedin",
-  "youtube",
-  "facebook",
-  "twitch",
-  "dev.to",
-  "codewars",
-  "codepen",
-  "freecodecamp",
-  "gitlab",
-  "hashnode",
-  "stackoverflow",
-] as const;
-
-export const linkSchema = z.object({
-  website: z.enum(websites),
-  link: z.string(),
-});
+// Possible websites
+export const websites = [
+  { id: 1, name: "GitHub", icon: "/icon-github.svg" },
+  { id: 2, name: "Frontend Mentor", icon: "/icon-frontend-mentor.svg" },
+  { id: 3, name: "Twitter", icon: "/icon-twitter.svg" },
+  { id: 4, name: "LinkedIn", icon: "/icon-linkedin.svg" },
+  { id: 5, name: "YouTube", icon: "/icon-youtube.svg" },
+  { id: 6, name: "Facebook", icon: "/icon-facebook.svg" },
+  { id: 7, name: "Twitch", icon: "/icon-twitch.svg" },
+  { id: 8, name: "Dev.to", icon: "/icon-devto.svg" },
+  { id: 9, name: "Codewars", icon: "/icon-codewars.svg" },
+  { id: 10, name: "Codepen", icon: "/icon-codepen.svg" },
+  { id: 11, name: "freeCodeCamp", icon: "/icon-freecodecamp.svg" },
+  { id: 12, name: "GitLab", icon: "/icon-gitlab.svg" },
+  { id: 13, name: "Hashnode", icon: "/icon-hashnode.svg" },
+  { id: 14, name: "Stack Overflow", icon: "/icon-stack-overflow.svg" },
+];
