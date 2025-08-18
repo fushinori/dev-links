@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/app/ui/button";
+import { PrimaryButton } from "@/app/ui/button/button-primary";
 import Input from "@/app/ui/user-authentication/input-component";
 import { login } from "@/app/lib/actions";
 import { LoginSchema } from "@/app/lib/types";
@@ -34,7 +34,7 @@ export default function LoginForm() {
       id={form.id}
       onSubmit={form.onSubmit}
       action={action}
-      className="bg-white rounded-xl flex flex-col gap-10"
+      className="bg-white rounded-xl flex flex-col gap-10 md:p-8"
       noValidate
     >
       <div>
@@ -79,9 +79,7 @@ export default function LoginForm() {
           />
         </div>
 
-        <Button className="bg-purple-400 hover:bg-purple-300 focus:bg-purple-300 focus:shadow-lg/50 focus:shadow-purple-300 hover:shadow-lg/50 hover:shadow-purple-300  outline-none">
-          Login
-        </Button>
+        <PrimaryButton>Login</PrimaryButton>
 
         <div className="flex flex-col"></div>
         <p className="text-grey-500 text-center">
