@@ -11,6 +11,7 @@
   "dependencies": {
     "@conform-to/react": "^1.8.1",
     "@conform-to/zod": "^1.8.1",
+    "@headlessui/react": "^2.2.7",
     "better-auth": "^1.2.9",
     "clsx": "^2.1.1",
     "next": "15.3.3",
