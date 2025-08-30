@@ -102,4 +102,6 @@ export const websites = [
     icon: "/icon-stack-overflow.svg",
     prefix: "https://stackoverflow.com/users/",
   },
-];
+] as const;
+
+export type ValidWebsite = (typeof websites)[number]["name"];
