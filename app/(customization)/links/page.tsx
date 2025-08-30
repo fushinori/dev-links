@@ -1,5 +1,4 @@
-import { SecondaryButton } from "@/app/ui/button/button-secondary";
-import LinkListBox from "@/app/ui/link-listbox";
+import LinksForm from "@/app/ui/links-form";
 
 export default function Links() {
   return (
@@ -12,10 +11,7 @@ export default function Links() {
           Add/edit/remove links below and then share all your profiles with the
           world!
         </p>
-        <SecondaryButton className="w-full mb-6">
-          + Add new link
-        </SecondaryButton>
-        <LinkListBox position={1} />
+        <LinksForm />
       </div>
     </main>
   );
