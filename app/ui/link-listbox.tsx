@@ -44,7 +44,12 @@ export default function LinkListBox({ id, name, position, username }: Props) {
       <Fieldset className="w-full bg-grey-100 rounded-xl p-5 flex flex-col gap-3 my-6">
         <div className="flex justify-between">
           <div className="flex gap-2">
-            <button className="cursor-move" {...attributes} {...listeners}>
+            {/* Button shouldn't respond to any touch events so as to not mess with dnd-kit's dragging */}
+            <button
+              className="cursor-move touch-none"
+              {...attributes}
+              {...listeners}
+            >
               <Image
                 src="/icon-drag-and-drop.svg"
                 alt=""
