@@ -13,17 +13,24 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 import { useState } from "react";
-import { websites } from "@/app/lib/types";
+import { ValidWebsite, websites } from "@/app/lib/types";
 
 interface Props {
+  id: number;
+  name: ValidWebsite;
   position: number;
+  username?: string;
 }
 
-export default function LinkListBox({ position }: Props) {
-  const [selectedWebsite, setSelectedWebsite] = useState(websites[0]);
+export default function LinkListBox({ id, name, position, username }: Props) {
+  const [selectedWebsite, setSelectedWebsite] = useState(
+    websites.find((site) => site.name === name),
+  );
+
+  console.log(id);
 
   return (
-    <Fieldset className="w-full bg-grey-100 rounded-xl p-5 flex flex-col gap-3">
+    <Fieldset className="w-full bg-grey-100 rounded-xl p-5 flex flex-col gap-3 my-6">
       <div className="flex justify-between">
         <div className="flex gap-2">
           <Image src="/icon-drag-and-drop.svg" alt="" height={16} width={16} />
@@ -33,12 +40,19 @@ export default function LinkListBox({ position }: Props) {
       </div>
 
       <Field>
-        <Label className="text-grey-700 text-xs block mb-1">Platform</Label>
+        <Label className="text-grey-700 text-xs block mb-1 truncate">
+          Platform
+        </Label>
         <Listbox value={selectedWebsite} onChange={setSelectedWebsite}>
-          <ListboxButton className="group flex justify-between rounded-lg bg-white w-full py-3 px-4 text-grey-700 outline-none border border-grey-300 focus:border-purple-400 data-open:border-purple-400 focus:shadow-lg/65 focus:shadow-grey-300">
+          <ListboxButton className="group flex justify-between rounded-lg bg-white w-full min-w-[300px] py-3 px-4 text-grey-700 outline-none border border-grey-300 focus:border-purple-400 data-open:border-purple-400 focus:shadow-lg/65 focus:shadow-grey-300">
             <div className="flex gap-2">
-              <Image src={selectedWebsite.icon} alt="" height={16} width={16} />
-              <span>{selectedWebsite.name}</span>
+              <Image
+                src={selectedWebsite!.icon}
+                alt=""
+                height={16}
+                width={16}
+              />
+              <span>{selectedWebsite!.name}</span>
             </div>
             <Image
               src="/icon-chevron-down.svg"
@@ -87,11 +101,18 @@ export default function LinkListBox({ position }: Props) {
 
       <Field>
         <Label className="text-grey-700 text-xs block mb-1">Link</Label>
-        <Input
-          type="url"
-          className="rounded-lg bg-white w-full py-3 px-4 text-grey-700 outline-none border border-grey-300 focus:border-purple-400 focus:shadow-lg/65 focus:shadow-grey-300"
-          placeholder="https://github.com/fushinori"
-        />
+        <div className="flex items-center rounded-lg border border-grey-300 bg-white w-full focus-within:border-purple-400 focus-within:shadow-lg/65 focus-within:shadow-grey-300">
+          {/* URL Prefix */}
+          <span className="pl-4 py-3 text-grey-700 truncate max-w-[50%]">
+            {selectedWebsite!.prefix}
+          </span>
+
+          <Input
+            type="url"
+            className="flex-1 w-0 min-w-0 border-none bg-transparent px-0 py-3 text-grey-700 outline-none"
+            defaultValue={username}
+          />
+        </div>
       </Field>
     </Fieldset>
   );
