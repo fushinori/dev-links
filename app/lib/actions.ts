@@ -58,6 +58,9 @@ export async function saveLinks(userId: string, links: UserLink[]) {
   if (!links) return;
 
   try {
+    // Begin the transaction
+    await sql.query("BEGIN");
+
     // Extract existing IDs (>0 are DB IDs)
     const existingIds = links.filter((l) => l.id > 0).map((l) => l.id);
 
@@ -96,6 +99,9 @@ export async function saveLinks(userId: string, links: UserLink[]) {
         [userId, l.website, l.username, l.position],
       );
     }
+
+    // Commit transaction
+    await sql.query("COMMIT");
   } catch (err) {
     console.error("Error saving links:", err);
     return { success: false, error: (err as Error).message };
