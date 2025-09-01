@@ -1,9 +1,9 @@
 "use client";
 
+import { PrimaryButton } from "@/app/ui/button/button-primary";
 import { SecondaryButton } from "@/app/ui/button/button-secondary";
-import { dummyLinks } from "@/app/lib/dummy_data";
 import LinkListBox from "@/app/ui/link-listbox";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   closestCenter,
   DndContext,
@@ -20,9 +20,36 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { authClient } from "@/app/lib/auth-client";
+import { UserLink } from "@/app/lib/types";
 
 export default function LinksForm() {
-  const [links, setLinks] = useState(dummyLinks);
+  const { data: session } = authClient.useSession();
+  const userId = session?.user.id;
+
+  const [links, setLinks] = useState<UserLink[]>([]);
+  const bottomDiv = useRef<null | HTMLDivElement>(null);
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchLinks = async () => {
+      try {
+        const res = await fetch(`/api/links?userid=${userId}`);
+        if (!res.ok) {
+          setLinks([]); // fallback on error
+          return;
+        }
+
+        const data: UserLink[] = await res.json();
+        setLinks(data);
+      } catch (error) {
+        console.error("Failed to fetch links", error);
+        setLinks([]); // fallback if fetch throws
+      }
+    };
+
+    fetchLinks();
+  }, [userId]);
 
   // Add sensors with delay of 100ms and tolerance of 5px
   const sensors = useSensors(
@@ -55,30 +82,70 @@ export default function LinksForm() {
     setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
   };
 
+  const handleAdd = () => {
+    // Generate a temporary negative ID to avoid collisions with DB IDs
+    const tempId = Date.now() * -1;
+
+    const newLink: UserLink = {
+      id: tempId,
+      website: "GitHub",
+      username: "",
+      position: links.length + 1,
+    };
+
+    setLinks((prev) => [...prev, newLink]);
+
+    // Scroll after DOM update
+    setTimeout(() => {
+      bottomDiv.current?.scrollIntoView({ behavior: "smooth" });
+    }, 50); // Small delay ensures new link is rendered
+  };
+
+  const handleUsernameChange = (id: number, newUsername: string) => {
+    setLinks((prev) =>
+      prev.map((link) =>
+        link.id === id ? { ...link, username: newUsername } : link,
+      ),
+    );
+  };
+
   return (
-    <form>
-      <SecondaryButton className="w-full mb-6">+ Add new link</SecondaryButton>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext
-          items={links.map((item) => item.id)}
-          strategy={verticalListSortingStrategy}
+    <>
+      <form noValidate>
+        <SecondaryButton
+          type="button"
+          className="w-full mb-6"
+          onClick={handleAdd}
         >
-          {links.map((link) => (
-            <LinkListBox
-              key={link.id}
-              id={link.id}
-              position={link.position}
-              name={link.name}
-              username={link.username}
-              onRemove={handleRemove}
-            />
-          ))}
-        </SortableContext>
-      </DndContext>
-    </form>
+          + Add new link
+        </SecondaryButton>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={links.map((item) => item.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {links.map((link) => (
+              <LinkListBox
+                key={link.id}
+                id={link.id}
+                position={link.position}
+                name={link.website}
+                username={link.username}
+                onRemove={handleRemove}
+                onUsernameChange={handleUsernameChange}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
+        <div className="bottomDiv" ref={bottomDiv}></div>
+        <div className="fixed bottom-0 left-0 w-full p-4 bg-white border-grey-300 border-t-[1px]">
+          <PrimaryButton className="w-full">Save</PrimaryButton>
+        </div>
+      </form>
+    </>
   );
 }
