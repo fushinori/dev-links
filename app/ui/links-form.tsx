@@ -50,6 +50,11 @@ export default function LinksForm() {
       setLinks(arrayMove(links, oldIndex, newIndex));
     }
   };
+
+  const handleRemove = (id: number) => {
+    setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
+  };
+
   return (
     <form>
       <SecondaryButton className="w-full mb-6">+ Add new link</SecondaryButton>
@@ -69,6 +74,7 @@ export default function LinksForm() {
               position={link.position}
               name={link.name}
               username={link.username}
+              onRemove={handleRemove}
             />
           ))}
         </SortableContext>

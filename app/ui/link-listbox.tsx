@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import {
   Field,
@@ -22,9 +20,16 @@ interface Props {
   name: ValidWebsite;
   position: number;
   username?: string;
+  onRemove: (id: number) => void;
 }
 
-export default function LinkListBox({ id, name, position, username }: Props) {
+export default function LinkListBox({
+  id,
+  name,
+  position,
+  username,
+  onRemove,
+}: Props) {
   const [selectedWebsite, setSelectedWebsite] = useState(
     websites.find((site) => site.name === name),
   );
@@ -60,7 +65,12 @@ export default function LinkListBox({ id, name, position, username }: Props) {
             </button>
             <Legend className="font-bold text-grey-500">Link #{id}</Legend>
           </div>
-          <button className="text-grey-500 cursor-pointer">Remove</button>
+          <button
+            className="text-grey-500 cursor-pointer"
+            onClick={() => onRemove(id)}
+          >
+            Remove
+          </button>
         </div>
 
         <Field>
