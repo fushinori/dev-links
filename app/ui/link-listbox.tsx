@@ -22,6 +22,7 @@ interface Props {
   username: string;
   onRemove: (id: number) => void;
   onUsernameChange: (id: number, newUsername: string) => void;
+  onWebsiteChange: (id: number, newWebsite: ValidWebsite) => void;
 }
 
 export default function LinkListBox({
@@ -31,6 +32,7 @@ export default function LinkListBox({
   username,
   onRemove,
   onUsernameChange,
+  onWebsiteChange,
 }: Props) {
   const [selectedWebsite, setSelectedWebsite] = useState(
     websites.find((site) => site.name === name),
@@ -82,7 +84,13 @@ export default function LinkListBox({
           <Label className="text-grey-700 text-xs block mb-1 truncate">
             Platform
           </Label>
-          <Listbox value={selectedWebsite} onChange={setSelectedWebsite}>
+          <Listbox
+            value={selectedWebsite}
+            onChange={(website) => {
+              setSelectedWebsite(website);
+              onWebsiteChange(id, website.name);
+            }}
+          >
             <ListboxButton className="group flex justify-between rounded-lg bg-white w-full min-w-[300px] py-3 px-4 text-grey-700 outline-none border border-grey-300 focus:border-purple-400 data-open:border-purple-400 focus:shadow-lg/65 focus:shadow-grey-300">
               <div className="flex gap-2">
                 <Image
