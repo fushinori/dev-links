@@ -19,8 +19,9 @@ interface Props {
   id: number;
   name: ValidWebsite;
   position: number;
-  username?: string;
+  username: string;
   onRemove: (id: number) => void;
+  onUsernameChange: (id: number, newUsername: string) => void;
 }
 
 export default function LinkListBox({
@@ -29,13 +30,14 @@ export default function LinkListBox({
   position,
   username,
   onRemove,
+  onUsernameChange,
 }: Props) {
   const [selectedWebsite, setSelectedWebsite] = useState(
     websites.find((site) => site.name === name),
   );
 
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: position });
+    useSortable({ id: id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -51,6 +53,7 @@ export default function LinkListBox({
           <div className="flex gap-2">
             {/* Button shouldn't respond to any touch events so as to not mess with dnd-kit's dragging */}
             <button
+              type="button"
               className="cursor-move touch-none"
               {...attributes}
               {...listeners}
@@ -63,7 +66,9 @@ export default function LinkListBox({
                 width={16}
               />
             </button>
-            <Legend className="font-bold text-grey-500">Link #{id}</Legend>
+            <Legend className="font-bold text-grey-500">
+              Link #{position}
+            </Legend>
           </div>
           <button
             className="text-grey-500 cursor-pointer"
@@ -144,7 +149,8 @@ export default function LinkListBox({
             <Input
               type="url"
               className="flex-1 w-0 min-w-0 border-none bg-transparent px-0 py-3 text-grey-700 outline-none"
-              defaultValue={username}
+              value={username}
+              onChange={(e) => onUsernameChange(id, e.target.value)}
             />
           </div>
         </Field>
