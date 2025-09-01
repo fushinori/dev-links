@@ -15,12 +15,12 @@ CREATE TYPE valid_website AS ENUM (
     'Stack Overflow'
 );
 
-
 CREATE TABLE link (
-  id BIGSERIAL PRIMARY KEY,
-  userid TEXT REFERENCES "user"(id) ON DELETE CASCADE,
-  website valid_website NOT NULL,
-  username TEXT NOT NULL,
-  position INT NOT NULL,
-  CONSTRAINT unique_user_position UNIQUE (userid, position)
+    id BIGSERIAL PRIMARY KEY,
+    userid TEXT REFERENCES "user"(id) ON DELETE CASCADE,
+    website valid_website NOT NULL,
+    username TEXT NOT NULL,
+    position INT NOT NULL,
+    CONSTRAINT unique_user_position UNIQUE (userid, position) 
+        DEFERRABLE INITIALLY DEFERRED
 );
