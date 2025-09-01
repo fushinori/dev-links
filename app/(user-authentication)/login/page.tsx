@@ -6,12 +6,24 @@ import Input from "@/app/ui/user-authentication/input-component";
 import { login } from "@/app/lib/actions";
 import { LoginSchema } from "@/app/lib/types";
 
+import { useSearchParams } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useForm } from "@conform-to/react";
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
   const [lastResult, action] = useActionState(login, undefined);
+
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
+
+  // We check if user has been redirected to show a toast.
+  useEffect(() => {
+    if (from) {
+      toast.error("Please login first.");
+    }
+  }, [from]);
 
   const [form, fields] = useForm({
     // Sync the result of last submission

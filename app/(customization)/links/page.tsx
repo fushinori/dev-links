@@ -1,6 +1,19 @@
+import { auth } from "@/app/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+
 import LinksForm from "@/app/ui/links-form";
 
-export default function Links() {
+export default async function Links() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    // We redirect with a query param
+    redirect("/login?from=links");
+  }
+
   return (
     <main className="p-4 bg-grey-100">
       <div className="bg-white p-6 rounded-sm">

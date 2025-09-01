@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Sans } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({
         className={`${instrumentSans.className} antialiased bg-white md:bg-grey-100`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );
