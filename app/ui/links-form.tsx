@@ -21,15 +21,25 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { authClient } from "@/app/lib/auth-client";
-import { UserLink } from "@/app/lib/types";
+import { UserLink, ValidWebsite } from "@/app/lib/types";
 import { updatePositions } from "@/app/lib/utils";
+import { saveLinks } from "../lib/actions";
 
 export default function LinksForm() {
-  const { data: session } = authClient.useSession();
-  const userId = session?.user.id;
+  const { data: session, isPending } = authClient.useSession();
 
+  const [userId, setUserId] = useState<string | null>(null);
   const [links, setLinks] = useState<UserLink[]>([]);
   const bottomDiv = useRef<null | HTMLDivElement>(null);
+
+  // Wait for session to load
+  useEffect(() => {
+    if (session?.user?.id) {
+      setUserId(session.user.id);
+    }
+  }, [session]);
+
+  //Fetch initial links
   useEffect(() => {
     if (!userId) return;
 
@@ -112,9 +122,34 @@ export default function LinksForm() {
     );
   };
 
+  const handleWebsiteChange = (id: number, newWebsite: ValidWebsite) => {
+    setLinks((prev) =>
+      prev.map((link) =>
+        link.id === id ? { ...link, website: newWebsite } : link,
+      ),
+    );
+  };
+
+  // ❗ Render loading state until we have a valid userId
+  if (isPending || !userId) return <div>Loading...</div>;
+
   return (
     <>
-      <form noValidate>
+      <form
+        noValidate
+        action={async (formData: FormData) => {
+          // Get data from hidden inputs
+          const userId = formData.get("userId") as string;
+          const linksJSON = formData.get("links") as string;
+          const links: UserLink[] = JSON.parse(linksJSON);
+
+          await saveLinks(userId, links);
+        }}
+      >
+        {/* Hidden inputs for server action */}
+        <input type="hidden" name="userId" value={userId} />
+        <input type="hidden" name="links" value={JSON.stringify(links)} />
+
         <SecondaryButton
           type="button"
           className="w-full mb-6"
@@ -140,13 +175,16 @@ export default function LinksForm() {
                 username={link.username}
                 onRemove={handleRemove}
                 onUsernameChange={handleUsernameChange}
+                onWebsiteChange={handleWebsiteChange}
               />
             ))}
           </SortableContext>
         </DndContext>
         <div className="bottomDiv" ref={bottomDiv}></div>
         <div className="fixed bottom-0 left-0 w-full p-4 bg-white border-grey-300 border-t-[1px]">
-          <PrimaryButton className="w-full">Save</PrimaryButton>
+          <PrimaryButton className="w-full" type="submit">
+            Save
+          </PrimaryButton>
         </div>
       </form>
     </>
