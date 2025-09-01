@@ -8,11 +8,11 @@ import { LoginSchema } from "@/app/lib/types";
 
 import { useSearchParams } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
-import { useActionState, useEffect } from "react";
+import { Suspense, useActionState, useEffect } from "react";
 import { useForm } from "@conform-to/react";
 import toast from "react-hot-toast";
 
-export default function LoginForm() {
+function LoginForm() {
   const [lastResult, action] = useActionState(login, undefined);
 
   const searchParams = useSearchParams();
@@ -102,5 +102,13 @@ export default function LoginForm() {
         </p>
       </div>
     </form>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }
