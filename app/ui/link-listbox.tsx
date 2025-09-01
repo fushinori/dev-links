@@ -49,6 +49,7 @@ export default function LinkListBox({ id, name, position, username }: Props) {
               className="cursor-move touch-none"
               {...attributes}
               {...listeners}
+              aria-label="Drag"
             >
               <Image
                 src="/icon-drag-and-drop.svg"
