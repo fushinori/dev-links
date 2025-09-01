@@ -22,6 +22,7 @@ import {
 } from "@dnd-kit/sortable";
 import { authClient } from "@/app/lib/auth-client";
 import { UserLink } from "@/app/lib/types";
+import { updatePositions } from "@/app/lib/utils";
 
 export default function LinksForm() {
   const { data: session } = authClient.useSession();
@@ -74,12 +75,14 @@ export default function LinksForm() {
     if (over && active.id !== over.id) {
       const oldIndex = links.findIndex((item) => item.id === active.id);
       const newIndex = links.findIndex((item) => item.id === over.id);
-      setLinks(arrayMove(links, oldIndex, newIndex));
+      setLinks(updatePositions(arrayMove(links, oldIndex, newIndex)));
     }
   };
 
   const handleRemove = (id: number) => {
-    setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
+    setLinks((prevLinks) =>
+      updatePositions(prevLinks.filter((link) => link.id !== id)),
+    );
   };
 
   const handleAdd = () => {
