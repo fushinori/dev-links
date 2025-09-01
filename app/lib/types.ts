@@ -105,3 +105,10 @@ export const websites = [
 ] as const;
 
 export type ValidWebsite = (typeof websites)[number]["name"];
+
+export interface UserLink {
+  id: number;
+  website: ValidWebsite;
+  username: string;
+  position: number;
+}
