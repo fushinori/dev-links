@@ -5,6 +5,16 @@ import { Pool } from "pg";
 export const auth = betterAuth({
   database: new Pool({ connectionString: process.env.POSTGRES_URL as string }),
 
+  // Add profile_code column to user table
+  user: {
+    additionalFields: {
+      profile_code: {
+        type: "string",
+        input: false,
+      },
+    },
+  },
+
   emailAndPassword: {
     enabled: true,
   },
