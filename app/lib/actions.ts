@@ -100,7 +100,7 @@ export async function login(
     };
   }
 
-  redirect("/home");
+  redirect("/links");
 }
 
 /**
