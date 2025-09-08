@@ -11,17 +11,20 @@ import { parseWithZod } from "@conform-to/zod";
 import { Suspense, useActionState, useEffect } from "react";
 import { useForm } from "@conform-to/react";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 function LoginForm() {
   const [lastResult, action] = useActionState(login, undefined);
 
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
+  const router = useRouter();
 
   useEffect(() => {
     // We check if user has been redirected to show a toast.
     if (from) {
       toast.error("Please login first.");
+      router.replace("/login");
     }
     // If lastResult is from Better Auth
     if (lastResult?.status === "error" && !("error" in lastResult)) {
@@ -32,7 +35,7 @@ function LoginForm() {
         toast.error(apiError.message);
       }
     }
-  }, [from, lastResult]);
+  }, [from, lastResult, router]);
 
   const [form, fields] = useForm({
     // Sync the result of last submission only if the lastResult is from Conform, otherwise just send undefined
