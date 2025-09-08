@@ -23,6 +23,14 @@ const baseUrl = `https://${process.env.YOUR_DOMAIN}`;
 
 export default function VerifyEmail({ url }: Props) {
   const verifyUrl = `${baseUrl}/api/auth${url}`;
+  // Parse the existing URL
+  const parsedUrl = new URL(verifyUrl);
+
+  // Change callbackURL to /links
+  parsedUrl.searchParams.set("callbackURL", "/links");
+
+  const newVerifyUrl = parsedUrl.toString();
+
   return (
     <Html>
       <Head />
@@ -60,15 +68,15 @@ export default function VerifyEmail({ url }: Props) {
             <Section className="mt-[32px] mb-[32px] text-center">
               <Button
                 className="rounded-lg bg-brand px-5 py-3 text-center text-white cursor-pointer font-bold"
-                href={verifyUrl}
+                href={newVerifyUrl}
               >
                 Verify email
               </Button>
             </Section>
             <Text className="text-[15px]">
               or copy and paste this URL into your browser:{" "}
-              <Link href={verifyUrl} className="text-blue-600 no-underline">
-                {verifyUrl}
+              <Link href={newVerifyUrl} className="text-blue-600 no-underline">
+                {newVerifyUrl}
               </Link>
             </Text>
           </Container>
