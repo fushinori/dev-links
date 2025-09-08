@@ -116,7 +116,7 @@ export async function sendEmail(email: string, url: string) {
   const domain = process.env.YOUR_DOMAIN!;
   try {
     const { data, error } = await resend.emails.send({
-      from: `Dev Links <${domain}>`,
+      from: `Dev Links <verify@${domain}>`,
       to: email,
       subject: "Verify your email",
       react: VerifyEmail({ url }),
