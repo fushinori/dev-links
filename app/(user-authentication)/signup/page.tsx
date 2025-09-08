@@ -17,7 +17,11 @@ function SignUpForm() {
     // If lastResult is from Better Auth
     if (lastResult?.status === "error" && !("error" in lastResult)) {
       const apiError = lastResult as BetterAuthErrorMessage;
-      toast.error(apiError.message);
+      if (apiError.code === 403) {
+        toast("Please verify your email first.", { icon: "🔒" });
+      } else {
+        toast.error(apiError.message);
+      }
     }
   }, [lastResult]);
 
