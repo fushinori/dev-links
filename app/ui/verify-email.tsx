@@ -26,8 +26,8 @@ export default function VerifyEmail({ url }: Props) {
   // Parse the existing URL
   const parsedUrl = new URL(verifyUrl);
 
-  // Change callbackURL to /links
-  parsedUrl.searchParams.set("callbackURL", "/links");
+  // Change callbackURL to /links with query param to show toast
+  parsedUrl.searchParams.set("callbackURL", "/links?verified=true");
 
   const newVerifyUrl = parsedUrl.toString();
 

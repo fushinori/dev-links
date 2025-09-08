@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import LinksForm from "@/app/ui/links-form";
+import VerifyToast from "@/app/ui/verify-toast";
 
 export default async function Links() {
   const session = await auth.api.getSession({
@@ -16,6 +17,9 @@ export default async function Links() {
 
   return (
     <main className="p-4 bg-grey-100">
+      {/* Toast component */}
+      <VerifyToast />
+
       <div className="bg-white p-6 rounded-sm">
         <h1 className="font-bold text-2xl text-grey-700 mb-2">
           Customize your links
