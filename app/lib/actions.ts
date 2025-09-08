@@ -163,15 +163,27 @@ export async function saveLinks(userId: string, links: UserLink[]) {
   }
 }
 
-export async function sendEmail(email: string, url: string) {
+export async function sendEmail(userId: string, email: string, url: string) {
   const domain = process.env.YOUR_DOMAIN!;
+
+  // Creates a key that will remain the same for an hour (how long a verification URL is active for)
+  //
+  // 1. Date.now() → current time in ms
+  // 2. Divide by (1000*60*60) → convert ms to hours since epoch
+  // 3. Math.floor(...) → round down so entire hour has same number
+  const key = `verify-user/${userId}-${Math.floor(Date.now() / (1000 * 60 * 60))}`;
   try {
-    const { data, error } = await resend.emails.send({
-      from: `Dev Links <verify@${domain}>`,
-      to: email,
-      subject: "Verify your email",
-      react: VerifyEmail({ url }),
-    });
+    const { data, error } = await resend.emails.send(
+      {
+        from: `Dev Links <verify@${domain}>`,
+        to: email,
+        subject: "Verify your email",
+        react: VerifyEmail({ url }),
+      },
+      {
+        idempotencyKey: key,
+      },
+    );
 
     if (error) {
       return { error };
