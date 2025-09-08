@@ -12,3 +12,7 @@ export function updatePositions(links: UserLink[]): UserLink[] {
     position: index + 1, // positions start at 1
   }));
 }
+
+export async function sendMockEmail(email: string, url: string) {
+  console.log(`Email: ${email}\nURL: ${url}`);
+}
