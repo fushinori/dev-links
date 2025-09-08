@@ -25,15 +25,7 @@ export default function VerifyEmail({ url }: Props) {
   const verifyUrl = `${baseUrl}/api/auth${url}`;
   return (
     <Html>
-      <Head>
-        <style>
-          {`
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
-            *{
-            font-family: 'Instrument Sans', sans-serif;
-            }`}
-        </style>
-      </Head>
+      <Head />
       <Tailwind
         config={{
           presets: [pixelBasedPreset],
@@ -46,7 +38,7 @@ export default function VerifyEmail({ url }: Props) {
           },
         }}
       >
-        <Body className="mx-auto my-auto bg-white px-2">
+        <Body className="mx-auto my-auto bg-white px-2 font-sans">
           <Preview>Dev Links Email Verification</Preview>
           <Container className="my-[40px] max-w-[465px] rounded border border-[#eaeaea] border-solid p-[20px]">
             <Section className="mt-[16px]">
