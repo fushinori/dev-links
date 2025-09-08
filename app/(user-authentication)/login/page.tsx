@@ -26,7 +26,7 @@ function LoginForm() {
     // If lastResult is from Better Auth
     if (lastResult?.status === "error" && !("error" in lastResult)) {
       const apiError = lastResult as BetterAuthErrorMessage;
-      if (apiError.code === 403) {
+      if (apiError.code === "FORBIDDEN") {
         toast("Please verify your email first.", { icon: "🔒" });
       } else {
         toast.error(apiError.message);
