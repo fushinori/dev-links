@@ -22,7 +22,7 @@ interface Props {
 const baseUrl = `https://${process.env.YOUR_DOMAIN}`;
 
 export default function VerifyEmail({ url }: Props) {
-  const verifyUrl = `${baseUrl}${url}`;
+  const verifyUrl = `${baseUrl}/api/auth${url}`;
   return (
     <Html>
       <Head>
