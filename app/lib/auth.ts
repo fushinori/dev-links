@@ -1,9 +1,7 @@
 import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
 import { Pool } from "pg";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { sendEmail } from "@/app/lib/actions";
-import { sendMockEmail } from "@/app/lib/utils";
 
 export const auth = betterAuth({
   database: new Pool({ connectionString: process.env.POSTGRES_URL as string }),
@@ -27,8 +25,7 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true,
     sendOnSignUp: true,
     sendVerificationEmail: async ({ user, url }) => {
-      // await sendEmail(user.email, url);
-      await sendMockEmail(user.email, url);
+      await sendEmail(user.email, url);
     },
   },
 
