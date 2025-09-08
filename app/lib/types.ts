@@ -112,3 +112,9 @@ export interface UserLink {
   username: string;
   position: number;
 }
+
+export interface BetterAuthErrorMessage {
+  status: "error";
+  message: string;
+  code?: string | number;
+}
