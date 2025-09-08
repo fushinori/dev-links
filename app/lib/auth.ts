@@ -11,7 +11,7 @@ export const auth = betterAuth({
     additionalFields: {
       profile_code: {
         type: "string",
-        input: false,
+        input: true,
       },
     },
   },
