@@ -4,17 +4,26 @@ import Link from "next/link";
 import { PrimaryButton } from "@/app/ui/button/button-primary";
 import Input from "@/app/ui/user-authentication/input-component";
 import { signUp } from "@/app/lib/actions";
-import { useActionState } from "react";
+import { Suspense, useActionState, useEffect } from "react";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { SignUpSchema } from "@/app/lib/types";
+import { BetterAuthErrorMessage, SignUpSchema } from "@/app/lib/types";
+import toast from "react-hot-toast";
 
-export default function SignUpForm() {
+function SignUpForm() {
   const [lastResult, action] = useActionState(signUp, undefined);
 
+  useEffect(() => {
+    // If lastResult is from Better Auth
+    if (lastResult?.status === "error" && !("error" in lastResult)) {
+      const apiError = lastResult as BetterAuthErrorMessage;
+      toast.error(apiError.message);
+    }
+  }, [lastResult]);
+
   const [form, fields] = useForm({
-    // Sync the result of last submission
-    lastResult,
+    // Sync the result of last submission only if the lastResult is from Conform, otherwise just send undefined
+    lastResult: lastResult && "error" in lastResult ? lastResult : undefined,
 
     // Reuse the validation logic on the client
     onValidate({ formData }) {
@@ -113,5 +122,13 @@ export default function SignUpForm() {
         </p>
       </div>
     </form>
+  );
+}
+
+export default function SignUp() {
+  return (
+    <Suspense>
+      <SignUpForm />
+    </Suspense>
   );
 }

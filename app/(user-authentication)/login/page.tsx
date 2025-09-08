@@ -4,7 +4,7 @@ import Link from "next/link";
 import { PrimaryButton } from "@/app/ui/button/button-primary";
 import Input from "@/app/ui/user-authentication/input-component";
 import { login } from "@/app/lib/actions";
-import { LoginSchema } from "@/app/lib/types";
+import { BetterAuthErrorMessage, LoginSchema } from "@/app/lib/types";
 
 import { useSearchParams } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
@@ -18,16 +18,21 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
 
-  // We check if user has been redirected to show a toast.
   useEffect(() => {
+    // We check if user has been redirected to show a toast.
     if (from) {
       toast.error("Please login first.");
     }
-  }, [from]);
+    // If lastResult is from Better Auth
+    if (lastResult?.status === "error" && !("error" in lastResult)) {
+      const apiError = lastResult as BetterAuthErrorMessage;
+      toast.error(apiError.message);
+    }
+  }, [from, lastResult]);
 
   const [form, fields] = useForm({
-    // Sync the result of last submission
-    lastResult,
+    // Sync the result of last submission only if the lastResult is from Conform, otherwise just send undefined
+    lastResult: lastResult && "error" in lastResult ? lastResult : undefined,
 
     // Reuse the validation logic on the client
     onValidate({ formData }) {
