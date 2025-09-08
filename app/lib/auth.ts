@@ -30,7 +30,7 @@ export const auth = betterAuth({
 
       // Change callbackURL to /links
       parsedUrl.searchParams.set("callbackURL", "/links");
-      await sendEmail(user.email, url);
+      await sendEmail(user.email, url.toString());
     },
   },
 
