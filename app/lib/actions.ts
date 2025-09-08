@@ -15,6 +15,7 @@ import { revalidatePath } from "next/cache";
 import VerifyEmail from "@/app/ui/verify-email";
 import { APIError } from "better-auth/api";
 import { SubmissionResult } from "@conform-to/react";
+import { customAlphabet } from "nanoid";
 
 export async function signUp(
   prevState: unknown,
@@ -29,12 +30,19 @@ export async function signUp(
   // On success, sign user up
   const { email, password } = submission.value;
 
+  // Generate a unique profile code on signup
+  const alphabet =
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  const nanoid = customAlphabet(alphabet, 11);
+  const profileCode = nanoid();
+
   try {
     await auth.api.signUpEmail({
       body: {
         email,
         name: email,
         password,
+        profile_code: profileCode,
       },
     });
   } catch (error) {
