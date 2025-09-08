@@ -1,6 +1,10 @@
 "use server";
 
-import { LoginSchema, SignUpSchema } from "@/app/lib/types";
+import {
+  BetterAuthErrorMessage,
+  LoginSchema,
+  SignUpSchema,
+} from "@/app/lib/types";
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 import { auth } from "@/app/lib/auth";
@@ -9,8 +13,13 @@ import { sql } from "@/app/lib/db";
 import { UserLink } from "@/app/lib/types";
 import { revalidatePath } from "next/cache";
 import VerifyEmail from "@/app/ui/verify-email";
+import { APIError } from "better-auth/api";
+import { SubmissionResult } from "@conform-to/react";
 
-export async function signUp(prevState: unknown, formData: FormData) {
+export async function signUp(
+  prevState: unknown,
+  formData: FormData,
+): Promise<SubmissionResult<string[]> | BetterAuthErrorMessage> {
   const submission = parseWithZod(formData, { schema: SignUpSchema });
 
   if (submission.status !== "success") {
@@ -18,20 +27,39 @@ export async function signUp(prevState: unknown, formData: FormData) {
   }
 
   // On success, sign user up
-
   const { email, password } = submission.value;
-  await auth.api.signUpEmail({
-    body: {
-      email: email,
-      name: email,
-      password: password,
-    },
-  });
+
+  try {
+    await auth.api.signUpEmail({
+      body: {
+        email,
+        name: email,
+        password,
+      },
+    });
+  } catch (error) {
+    if (error instanceof APIError) {
+      console.log(error.message, error.status);
+      return {
+        status: "error",
+        message: error.message || "Signup failed",
+        code: error.status,
+      };
+    }
+
+    return {
+      status: "error",
+      message: "An unexpected error occurred",
+    };
+  }
 
   redirect("/login");
 }
 
-export async function login(prevState: unknown, formData: FormData) {
+export async function login(
+  prevState: unknown,
+  formData: FormData,
+): Promise<SubmissionResult<string[]> | BetterAuthErrorMessage> {
   const submission = parseWithZod(formData, { schema: LoginSchema });
 
   if (submission.status !== "success") {
@@ -39,15 +67,30 @@ export async function login(prevState: unknown, formData: FormData) {
   }
 
   // On success, login user
-
   const { email, password } = submission.value;
 
-  await auth.api.signInEmail({
-    body: {
-      email: email,
-      password: password,
-    },
-  });
+  try {
+    await auth.api.signInEmail({
+      body: {
+        email,
+        password,
+      },
+    });
+  } catch (error) {
+    if (error instanceof APIError) {
+      console.log(error.message, error.status);
+      return {
+        status: "error",
+        message: error.message || "Login failed",
+        code: error.status,
+      };
+    }
+
+    return {
+      status: "error",
+      message: "An unexpected error occurred",
+    };
+  }
 
   redirect("/home");
 }
