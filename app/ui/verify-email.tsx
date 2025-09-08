@@ -8,6 +8,7 @@ import {
   Hr,
   Img,
   Link,
+  Preview,
   Section,
   Tailwind,
   Text,
@@ -46,6 +47,7 @@ export default function VerifyEmail({ url }: Props) {
         }}
       >
         <Body className="mx-auto my-auto bg-white px-2">
+          <Preview>Dev Links Email Verification</Preview>
           <Container className="my-[40px] max-w-[465px] rounded border border-[#eaeaea] border-solid p-[20px]">
             <Section className="mt-[16px]">
               <Img
