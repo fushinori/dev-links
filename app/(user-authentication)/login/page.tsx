@@ -11,7 +11,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { Suspense, useActionState, useEffect } from "react";
 import { useForm } from "@conform-to/react";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function LoginForm() {
   const [lastResult, action] = useActionState(login, undefined);
