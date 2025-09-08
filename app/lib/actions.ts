@@ -4,7 +4,11 @@ import { LoginSchema, SignUpSchema } from "@/app/lib/types";
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 import { auth } from "@/app/lib/auth";
+import { resend } from "@/app/lib/resend";
 import { sql } from "@/app/lib/db";
+import { UserLink } from "@/app/lib/types";
+import { revalidatePath } from "next/cache";
+import VerifyEmail from "@/app/ui/verify-email";
 
 export async function signUp(prevState: unknown, formData: FormData) {
   const submission = parseWithZod(formData, { schema: SignUpSchema });
@@ -47,9 +51,6 @@ export async function login(prevState: unknown, formData: FormData) {
 
   redirect("/home");
 }
-
-import { UserLink } from "@/app/lib/types";
-import { revalidatePath } from "next/cache";
 
 /**
  * Save a user's links in bulk: insert new, update existing, delete removed
@@ -108,5 +109,25 @@ export async function saveLinks(userId: string, links: UserLink[]) {
   } finally {
     revalidatePath("/links");
     redirect("/links");
+  }
+}
+
+export async function sendEmail(email: string, url: string) {
+  const domain = process.env.YOUR_DOMAIN!;
+  try {
+    const { data, error } = await resend.emails.send({
+      from: `Dev Links <${domain}>`,
+      to: email,
+      subject: "Verify your email",
+      react: VerifyEmail({ url }),
+    });
+
+    if (error) {
+      return { error };
+    }
+
+    return { data };
+  } catch (error) {
+    return { error };
   }
 }
