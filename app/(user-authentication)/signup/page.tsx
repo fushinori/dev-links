@@ -4,10 +4,10 @@ import Link from "next/link";
 import { PrimaryButton } from "@/app/ui/button/button-primary";
 import Input from "@/app/ui/user-authentication/input-component";
 import { signUp } from "@/app/lib/actions";
-import { Suspense, useActionState, useEffect } from "react";
+import { Suspense, useActionState, useEffect, startTransition } from "react";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { BetterAuthErrorMessage, SignUpSchema } from "@/app/lib/types";
+import { SignUpSchema } from "@/app/lib/types";
 import toast from "react-hot-toast";
 
 function SignUpForm() {
@@ -15,12 +15,16 @@ function SignUpForm() {
 
   useEffect(() => {
     // If lastResult is from Better Auth
-    if (lastResult?.status === "error" && !("error" in lastResult)) {
-      const apiError = lastResult as BetterAuthErrorMessage;
-      if (apiError.code === "FORBIDDEN") {
-        toast("Please verify your email first.", { icon: "🔒" });
+    if (lastResult && "isAuthError" in lastResult) {
+      if (lastResult.isAuthError) {
+        const apiError = lastResult.betterAuthError;
+        if (apiError.code === 403) {
+          toast("Please verify your email first.", { icon: "🔒" });
+        } else {
+          toast.error(apiError.message);
+        }
       } else {
-        toast.error(apiError.message);
+        toast.error("Unexpected error.");
       }
     }
   }, [lastResult]);
@@ -39,6 +43,14 @@ function SignUpForm() {
 
     // Revalidate every time the user types
     shouldRevalidate: "onInput",
+
+    // Prevent React from resetting inputs after a successful action
+    onSubmit(event, { formData }) {
+      event.preventDefault();
+      startTransition(() => {
+        action(formData);
+      });
+    },
   });
 
   return (

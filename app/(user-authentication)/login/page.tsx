@@ -4,11 +4,11 @@ import Link from "next/link";
 import { PrimaryButton } from "@/app/ui/button/button-primary";
 import Input from "@/app/ui/user-authentication/input-component";
 import { login } from "@/app/lib/actions";
-import { BetterAuthErrorMessage, LoginSchema } from "@/app/lib/types";
+import { LoginSchema } from "@/app/lib/types";
 
 import { useSearchParams } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
-import { Suspense, useActionState, useEffect } from "react";
+import { Suspense, useActionState, useEffect, startTransition } from "react";
 import { useForm } from "@conform-to/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -27,19 +27,23 @@ function LoginForm() {
       router.replace("/login");
     }
     // If lastResult is from Better Auth
-    if (lastResult?.status === "error" && !("error" in lastResult)) {
-      const apiError = lastResult as BetterAuthErrorMessage;
-      if (apiError.code === "FORBIDDEN") {
-        toast("Please verify your email first.", { icon: "🔒" });
+    if (lastResult && "isAuthError" in lastResult) {
+      if (lastResult.isAuthError) {
+        const apiError = lastResult.betterAuthError;
+        if (apiError.code === 403) {
+          toast("Please verify your email first.", { icon: "🔒" });
+        } else {
+          toast.error(apiError.message);
+        }
       } else {
-        toast.error(apiError.message);
+        toast.error("Unexpected error.");
       }
     }
   }, [from, lastResult, router]);
 
   const [form, fields] = useForm({
-    // Sync the result of last submission only if the lastResult is from Conform, otherwise just send undefined
-    lastResult: lastResult && "error" in lastResult ? lastResult : undefined,
+    // Sync the result of last submission
+    lastResult,
 
     // Reuse the validation logic on the client
     onValidate({ formData }) {
@@ -51,6 +55,14 @@ function LoginForm() {
 
     // Revalidate every time the user types
     shouldRevalidate: "onInput",
+
+    // Prevent React from resetting inputs after a successful action
+    onSubmit(event, { formData }) {
+      event.preventDefault();
+      startTransition(() => {
+        action(formData);
+      });
+    },
   });
 
   return (
