@@ -20,7 +20,13 @@ import { customAlphabet } from "nanoid";
 export async function signUp(
   prevState: unknown,
   formData: FormData,
-): Promise<SubmissionResult<string[]> | BetterAuthErrorMessage> {
+): Promise<
+  | SubmissionResult<string[]>
+  | (SubmissionResult & {
+      betterAuthError: BetterAuthErrorMessage;
+      isAuthError: boolean;
+    })
+> {
   const submission = parseWithZod(formData, { schema: SignUpSchema });
 
   if (submission.status !== "success") {
@@ -48,16 +54,20 @@ export async function signUp(
   } catch (error) {
     if (error instanceof APIError) {
       console.log(error.message, error.status);
+      const authError: BetterAuthErrorMessage = {
+        message: error.message || "Login failed",
+        code: error.statusCode,
+      };
       return {
-        status: "error",
-        message: error.message || "Signup failed",
-        code: error.status,
+        ...submission.reply({ resetForm: false }),
+        betterAuthError: authError,
+        isAuthError: true,
       };
     }
 
     return {
-      status: "error",
-      message: "An unexpected error occurred",
+      ...submission.reply({ resetForm: false }),
+      isAuthError: false,
     };
   }
 
@@ -67,7 +77,13 @@ export async function signUp(
 export async function login(
   prevState: unknown,
   formData: FormData,
-): Promise<SubmissionResult<string[]> | BetterAuthErrorMessage> {
+): Promise<
+  | SubmissionResult<string[]>
+  | (SubmissionResult & {
+      betterAuthError?: BetterAuthErrorMessage;
+      isAuthError: boolean;
+    })
+> {
   const submission = parseWithZod(formData, { schema: LoginSchema });
 
   if (submission.status !== "success") {
@@ -86,17 +102,21 @@ export async function login(
     });
   } catch (error) {
     if (error instanceof APIError) {
-      console.log(error.message, error.status);
-      return {
-        status: "error",
+      console.log(error.message, error.statusCode);
+      const authError: BetterAuthErrorMessage = {
         message: error.message || "Login failed",
-        code: error.status,
+        code: error.statusCode,
+      };
+      return {
+        ...submission.reply({ resetForm: false }),
+        betterAuthError: authError,
+        isAuthError: true,
       };
     }
 
     return {
-      status: "error",
-      message: "An unexpected error occurred",
+      ...submission.reply({ resetForm: false }),
+      isAuthError: false,
     };
   }
 
