@@ -59,14 +59,14 @@ export async function signUp(
         code: error.statusCode,
       };
       return {
-        ...submission.reply({ resetForm: false }),
+        ...submission.reply(),
         betterAuthError: authError,
         isAuthError: true,
       };
     }
 
     return {
-      ...submission.reply({ resetForm: false }),
+      ...submission.reply(),
       isAuthError: false,
     };
   }
@@ -108,14 +108,14 @@ export async function login(
         code: error.statusCode,
       };
       return {
-        ...submission.reply({ resetForm: false }),
+        ...submission.reply(),
         betterAuthError: authError,
         isAuthError: true,
       };
     }
 
     return {
-      ...submission.reply({ resetForm: false }),
+      ...submission.reply(),
       isAuthError: false,
     };
   }
