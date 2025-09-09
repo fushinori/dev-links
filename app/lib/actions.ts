@@ -80,7 +80,7 @@ export async function login(
 ): Promise<
   | SubmissionResult<string[]>
   | (SubmissionResult & {
-      betterAuthError?: BetterAuthErrorMessage;
+      betterAuthError: BetterAuthErrorMessage;
       isAuthError: boolean;
     })
 > {
