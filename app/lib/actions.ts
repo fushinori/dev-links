@@ -5,7 +5,7 @@ import {
   LoginSchema,
   SignUpSchema,
 } from "@/app/lib/types";
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod/v4";
 import { redirect } from "next/navigation";
 import { auth } from "@/app/lib/auth";
 import { resend } from "@/app/lib/resend";

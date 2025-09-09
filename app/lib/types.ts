@@ -1,9 +1,12 @@
 import { z } from "zod";
 
 const BaseSignUpSchema = z.object({
-  email: z
-    .string({ required_error: "Can't be empty" })
-    .email("Please enter a valid email"),
+  email: z.email({
+    error: (issue) =>
+      issue.input === undefined
+        ? "Can't be empty"
+        : "Please enter a valid email",
+  }),
   password: z.string().min(8, "Password should be at least 8 characters long"),
   confirmPassword: z
     .string()

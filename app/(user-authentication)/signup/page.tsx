@@ -6,7 +6,7 @@ import Input from "@/app/ui/user-authentication/input-component";
 import { signUp } from "@/app/lib/actions";
 import { Suspense, useActionState, useEffect, startTransition } from "react";
 import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod/v4";
 import { SignUpSchema } from "@/app/lib/types";
 import toast from "react-hot-toast";
 

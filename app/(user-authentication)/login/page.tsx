@@ -7,7 +7,7 @@ import { login } from "@/app/lib/actions";
 import { LoginSchema } from "@/app/lib/types";
 
 import { useSearchParams } from "next/navigation";
-import { parseWithZod } from "@conform-to/zod";
+import { parseWithZod } from "@conform-to/zod/v4";
 import { Suspense, useActionState, useEffect, startTransition } from "react";
 import { useForm } from "@conform-to/react";
 import toast from "react-hot-toast";

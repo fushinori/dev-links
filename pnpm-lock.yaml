@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@conform-to/react':
-        specifier: ^1.8.1
-        version: 1.8.1(react@19.1.0)
+        specifier: ^1.9.0
+        version: 1.9.0(react@19.1.0)
       '@conform-to/zod':
-        specifier: ^1.8.1
-        version: 1.8.1(zod@3.25.74)
+        specifier: ^1.9.0
+        version: 1.9.0(zod@4.1.5)
       '@dnd-kit/core':
         specifier: ^6.3.1
         version: 6.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -60,8 +60,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       zod:
-        specifier: ^3.25.74
-        version: 3.25.74
+        specifier: ^4.1.5
+        version: 4.1.5
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -110,18 +110,18 @@ packages:
   '@better-fetch/fetch@1.1.18':
     resolution: {integrity: sha512-rEFOE1MYIsBmoMJtQbl32PGHHXuG2hDxvEd7rUHE0vCBoFQVSDqaVs9hkZEtHCxRoY+CljXKFCOuJ8uxqw1LcA==}
 
-  '@conform-to/dom@1.8.1':
-    resolution: {integrity: sha512-Sg4Jz31ZyiqbFHAKOmG+sVHtukku2Xmxv9ObYzj/TrKMXF1R9qN3ShucAIZWtRaw9l9vZGiqpDnSyfevmiBxuQ==}
+  '@conform-to/dom@1.9.0':
+    resolution: {integrity: sha512-aukL19Y/isqa8vXkYBpOtJbUAttaxpHXTLm/2NMj8TMNRmmVdPkJK8l6ClJM4p8cAPUHi3WrRMRoHSBAR56v8w==}
 
-  '@conform-to/react@1.8.1':
-    resolution: {integrity: sha512-+bm+j0MOeOxrhrjWeoLmpmt+m1djZmPM/qE+AH5+8RewuC6GyXEXPyWAyES9bw9mZJ/WqInVS6Ljrf4gQ0I0zA==}
+  '@conform-to/react@1.9.0':
+    resolution: {integrity: sha512-73VdST7vcdblk5SrFeR3xH+pPUuO91Gy9HuC5k0SbeaEDYUiEkdAOfWvDWrcvUBsNsr1EpBmJWQp+MU0pNl+xQ==}
     peerDependencies:
       react: '>=18'
 
-  '@conform-to/zod@1.8.1':
-    resolution: {integrity: sha512-OO3CvfA1STL68oTKTMEcXWR/pBwWfJDSRVvBiR34gLlkZBV01Kfvmea2kQarFXLCJSANvjUyG52OZe9GxvPUGw==}
+  '@conform-to/zod@1.9.0':
+    resolution: {integrity: sha512-OWrSXO7bzEO9Gn4iQSWFHI1kqOdIp/tE1VTNsaWe++B9pGaQI3vh1c3uwmEsFQxAMPIpecJycxJpu4zKyh0iDA==}
     peerDependencies:
-      zod: ^3.21.0
+      zod: ^3.21.0 || ^4.0.0
 
   '@dnd-kit/accessibility@3.1.1':
     resolution: {integrity: sha512-2P+YgaXF+gRsIihwwY1gCsQSYnu9Zyj2py8kY5fFvUM1qm2WA2u639R6YNVfU4GWr+ZM5mqEsfHZZLoRONbemw==}
@@ -2333,6 +2333,9 @@ packages:
   zod@3.25.74:
     resolution: {integrity: sha512-J8poo92VuhKjNknViHRAIuuN6li/EwFbAC8OedzI8uxpEPGiXHGQu9wemIAioIpqgfB4SySaJhdk0mH5Y4ICBg==}
 
+  zod@4.1.5:
+    resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
@@ -2349,17 +2352,17 @@ snapshots:
 
   '@better-fetch/fetch@1.1.18': {}
 
-  '@conform-to/dom@1.8.1': {}
+  '@conform-to/dom@1.9.0': {}
 
-  '@conform-to/react@1.8.1(react@19.1.0)':
+  '@conform-to/react@1.9.0(react@19.1.0)':
     dependencies:
-      '@conform-to/dom': 1.8.1
+      '@conform-to/dom': 1.9.0
       react: 19.1.0
 
-  '@conform-to/zod@1.8.1(zod@3.25.74)':
+  '@conform-to/zod@1.9.0(zod@4.1.5)':
     dependencies:
-      '@conform-to/dom': 1.8.1
-      zod: 3.25.74
+      '@conform-to/dom': 1.9.0
+      zod: 4.1.5
 
   '@dnd-kit/accessibility@3.1.1(react@19.1.0)':
     dependencies:
@@ -4810,3 +4813,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zod@3.25.74: {}
+
+  zod@4.1.5: {}
