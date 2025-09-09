@@ -31,14 +31,14 @@ export default function NavBar() {
 
   return (
     <nav className="md:hidden flex justify-between py-3">
-      <Link href="/home" className="px-6 py-2">
+      <div className="px-6 py-2">
         <Image
           src="/logo-devlinks-small.svg"
           height={24}
           width={24}
           alt="Dev Links Logo"
         ></Image>
-      </Link>
+      </div>
       {links.map((link) => {
         return (
           <Link
