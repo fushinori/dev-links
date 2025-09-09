@@ -120,3 +120,46 @@ export interface BetterAuthErrorMessage {
   message: string;
   code: number;
 }
+
+const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
+const MIN_DIMENSIONS = { width: 200, height: 200 };
+const MAX_DIMENSIONS = { width: 1024, height: 1024 };
+
+export const ProfileSchema = z.object({
+  image: z
+    .file()
+    .max(MAX_IMAGE_SIZE, "Image should not be larger than 2MB!")
+    .mime(["image/png", "image/jpeg"], "Image should be either JPG or PNG!")
+    // Make sure image resolution is between 200x200 and 1024x1024
+    // https://www.codu.co/articles/validate-an-image-file-with-zod-jjhied8p
+    .refine(
+      (file) =>
+        new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+              const meetsDimensions =
+                img.width >= MIN_DIMENSIONS.width &&
+                img.height >= MIN_DIMENSIONS.height &&
+                img.width <= MAX_DIMENSIONS.width &&
+                img.height <= MAX_DIMENSIONS.height;
+              resolve(meetsDimensions);
+            };
+            img.src = e.target?.result as string;
+          };
+          reader.readAsDataURL(file);
+        }),
+      {
+        message: `The image dimensions are invalid. Please upload an image between ${MIN_DIMENSIONS.width}x${MIN_DIMENSIONS.height} and ${MAX_DIMENSIONS.width}x${MAX_DIMENSIONS.height} pixels.`,
+      },
+    ),
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.email({
+    error: (issue) =>
+      issue.input === undefined
+        ? "Can't be empty"
+        : "Please enter a valid email",
+  }),
+});
