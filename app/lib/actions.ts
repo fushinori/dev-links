@@ -18,7 +18,7 @@ import { SubmissionResult } from "@conform-to/react";
 import { customAlphabet } from "nanoid";
 
 export async function signUp(
-  prevState: unknown,
+  _prevState: unknown,
   formData: FormData,
 ): Promise<
   | SubmissionResult<string[]>
@@ -75,7 +75,7 @@ export async function signUp(
 }
 
 export async function login(
-  prevState: unknown,
+  _prevState: unknown,
   formData: FormData,
 ): Promise<
   | SubmissionResult<string[]>
