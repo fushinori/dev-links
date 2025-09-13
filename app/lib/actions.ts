@@ -5,6 +5,7 @@ import {
   LoginSchema,
   SignUpSchema,
   ProfileSchema,
+  UploadResult,
 } from "@/app/lib/types";
 import { parseWithZod } from "@conform-to/zod/v4";
 import { redirect } from "next/navigation";
@@ -16,10 +17,20 @@ import { revalidatePath } from "next/cache";
 import VerifyEmail from "@/app/ui/verify-email";
 import { APIError } from "better-auth/api";
 import { SubmissionResult } from "@conform-to/react";
-import { customAlphabet } from "nanoid";
+import { customAlphabet, nanoid } from "nanoid";
 import { imageSize } from "image-size";
+import { headers } from "next/headers";
+import { R2 } from "@/app/lib/r2";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
-export async function profile(_prevState: unknown, formData: FormData) {
+export async function profile(
+  _prevState: unknown,
+  formData: FormData,
+): Promise<SubmissionResult<string[]> | { success: true }> {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   const submission = parseWithZod(formData, {
     schema: ProfileSchema,
   });
@@ -29,7 +40,13 @@ export async function profile(_prevState: unknown, formData: FormData) {
   }
 
   const { image } = submission.value;
-  if (!image) return;
+  if (!image) {
+    return submission.reply({
+      fieldErrors: {
+        image: ["No image found."],
+      },
+    });
+  }
   const buffer = Buffer.from(await image.arrayBuffer());
   const dimensions = imageSize(buffer);
   console.log(dimensions);
@@ -42,7 +59,26 @@ export async function profile(_prevState: unknown, formData: FormData) {
     });
   }
 
-  console.log("Validation successful");
+  const result = await uploadUserAvatar(image);
+  if (result.success) {
+    const imageId = result.imageId;
+    // We will have a session for sure
+    const userId = session!.user.id;
+    const query = `
+    UPDATE "user"
+    SET image = $1
+    WHERE id = $2
+  `;
+    await sql.query(query, [imageId, userId]);
+  } else {
+    return submission.reply({
+      fieldErrors: {
+        image: ["Failed to upload image."],
+      },
+    });
+  }
+
+  return { success: true };
 }
 
 export async function signUp(
@@ -241,4 +277,40 @@ export async function sendEmail(userId: string, email: string, url: string) {
   } catch (error) {
     return { error };
   }
+}
+
+export async function uploadUserAvatar(avatar: File): Promise<UploadResult> {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) return { success: false, error: "Not authenticated." };
+
+  const userId = session.user.id;
+  const uniqueId = nanoid(6);
+  // Since we are only going to work with jpgs and pngs
+  const extension = avatar.type === "image/jpeg" ? "jpg" : "png";
+
+  const fileName = `avatars/${userId}-${uniqueId}.${extension}`;
+
+  const buffer = Buffer.from(await avatar.arrayBuffer());
+
+  try {
+    await R2.send(
+      new PutObjectCommand({
+        Bucket: process.env.R2_BUCKET!,
+        Key: fileName,
+        Body: buffer,
+        ContentType: avatar.type,
+      }),
+    );
+  } catch (err) {
+    console.error("R2 upload failed:", err);
+    return {
+      success: false,
+      error: "Failed to upload avatar. Please try again.",
+    };
+  }
+
+  return { success: true, imageId: fileName };
 }

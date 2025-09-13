@@ -142,3 +142,7 @@ export const ProfileSchema = z.object({
     })
     .optional(),
 });
+
+export type UploadResult =
+  | { success: true; imageId: string }
+  | { success: false; error: string };
