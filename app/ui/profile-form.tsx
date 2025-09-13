@@ -12,9 +12,9 @@ export default function ProfileForm() {
   const [lastResult, action] = useActionState(profile, undefined);
 
   const [form, fields] = useForm({
-    // Sync the result of last submission
-    lastResult,
-
+    // Sync the result of last submission if not success
+    lastResult:
+      lastResult && !("success" in lastResult) ? lastResult : undefined,
     // Reuse the validation logic on the client
     onValidate({ formData }) {
       return parseWithZod(formData, {
@@ -80,7 +80,7 @@ function InputElement({ label, errors, ...props }: InputProps) {
         {label}
       </label>
 
-      <Input className="pl-4 bg-white" id="last-name" {...props} />
+      <Input className="pl-4 bg-white" {...props} />
 
       {errors && <p className="text-sm text-red-400">{errors[0]}</p>}
     </div>
