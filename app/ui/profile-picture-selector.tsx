@@ -71,7 +71,7 @@ export default function ProfilePictureSelector({ error, ...props }: Props) {
           </p>
         </div>
       </label>
-      {error && <p className="text-sm text-red-600">{error[0]}</p>}
+      {error && <p className="text-sm text-red-400">{error[0]}</p>}
       <p className="text-grey-500 text-xs">
         Image must be below 1024x1024px. Use PNG or JPG format.
       </p>

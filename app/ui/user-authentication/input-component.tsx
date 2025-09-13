@@ -31,7 +31,7 @@ export default function Input({
           aria-hidden={true}
         ></Image>
       )}
-      <div>{errors && errors[0]}</div>
+      {errors && <p className="text-sm text-red-400">{errors[0]}</p>}
     </div>
   );
 }
