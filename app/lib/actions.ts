@@ -4,6 +4,7 @@ import {
   BetterAuthErrorMessage,
   LoginSchema,
   SignUpSchema,
+  ProfileSchema,
 } from "@/app/lib/types";
 import { parseWithZod } from "@conform-to/zod/v4";
 import { redirect } from "next/navigation";
@@ -16,6 +17,33 @@ import VerifyEmail from "@/app/ui/verify-email";
 import { APIError } from "better-auth/api";
 import { SubmissionResult } from "@conform-to/react";
 import { customAlphabet } from "nanoid";
+import { imageSize } from "image-size";
+
+export async function profile(_prevState: unknown, formData: FormData) {
+  const submission = parseWithZod(formData, {
+    schema: ProfileSchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  const { image } = submission.value;
+  if (!image) return;
+  const buffer = Buffer.from(await image.arrayBuffer());
+  const dimensions = imageSize(buffer);
+  console.log(dimensions);
+
+  if (dimensions.width > 1024 || dimensions.height > 1024) {
+    return submission.reply({
+      fieldErrors: {
+        image: ["Image should be below 1024x1024px."],
+      },
+    });
+  }
+
+  console.log("Validation successful");
+}
 
 export async function signUp(
   _prevState: unknown,
