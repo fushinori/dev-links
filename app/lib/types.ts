@@ -7,9 +7,11 @@ const BaseSignUpSchema = z.object({
         ? "Can't be empty"
         : "Please enter a valid email",
   }),
-  password: z.string().min(8, "Password should be at least 8 characters long"),
+  password: z
+    .string("Can't be empty")
+    .min(8, "Password should be at least 8 characters long"),
   confirmPassword: z
-    .string()
+    .string("Can't be empty")
     .min(8, "Password should be at least 8 characters long"),
 });
 
@@ -127,13 +129,16 @@ export const ProfileSchema = z.object({
   image: z
     .file()
     .max(MAX_IMAGE_SIZE, "Image should not be larger than 2MB!")
-    .mime(["image/png", "image/jpeg"], "Image should be either JPG or PNG!"),
-  firstName: z.string(),
-  lastName: z.string(),
-  email: z.email({
-    error: (issue) =>
-      issue.input === undefined
-        ? "Can't be empty"
-        : "Please enter a valid email",
-  }),
+    .mime(["image/png", "image/jpeg"], "Image should be either JPG or PNG!")
+    .optional(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  email: z
+    .email({
+      error: (issue) =>
+        issue.input === undefined
+          ? "Can't be empty"
+          : "Please enter a valid email",
+    })
+    .optional(),
 });
