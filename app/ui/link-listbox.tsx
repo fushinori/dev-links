@@ -81,9 +81,7 @@ export default function LinkListBox({
         </div>
 
         <Field>
-          <Label className="text-grey-700 text-xs block mb-1 truncate">
-            Platform
-          </Label>
+          <Label className="text-grey-700 text-xs block mb-1">Platform</Label>
           <Listbox
             value={selectedWebsite}
             onChange={(website) => {
