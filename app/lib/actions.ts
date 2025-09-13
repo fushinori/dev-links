@@ -190,8 +190,16 @@ export async function login(
 /**
  * Save a user's links in bulk: insert new, update existing, delete removed
  */
-export async function saveLinks(userId: string, links: UserLink[]) {
+export async function saveLinks(links: UserLink[]) {
   if (!links) return;
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) return;
+
+  const userId = session.user.id;
 
   try {
     // Begin the transaction

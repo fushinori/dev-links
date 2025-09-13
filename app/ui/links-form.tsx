@@ -138,16 +138,14 @@ export default function LinksForm() {
       <form
         noValidate
         action={async (formData: FormData) => {
-          // Get data from hidden inputs
-          const userId = formData.get("userId") as string;
+          // Get data from hidden input
           const linksJSON = formData.get("links") as string;
           const links: UserLink[] = JSON.parse(linksJSON);
 
-          await saveLinks(userId, links);
+          await saveLinks(links);
         }}
       >
-        {/* Hidden inputs for server action */}
-        <input type="hidden" name="userId" value={userId} />
+        {/* Hidden input for server action */}
         <input type="hidden" name="links" value={JSON.stringify(links)} />
 
         <SecondaryButton
