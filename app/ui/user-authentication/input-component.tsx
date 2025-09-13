@@ -2,7 +2,7 @@ import { cn } from "@/app/lib/utils";
 import Image from "next/image";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  icon: string;
+  icon?: string;
   errors?: string[];
 }
 
@@ -21,14 +21,16 @@ export default function Input({
         )}
         {...rest}
       />
-      <Image
-        className="absolute top-[16px] left-[16px]"
-        src={icon}
-        width={16}
-        height={16}
-        alt=""
-        aria-hidden={true}
-      ></Image>
+      {icon && (
+        <Image
+          className="absolute top-[16px] left-[16px]"
+          src={icon}
+          width={16}
+          height={16}
+          alt=""
+          aria-hidden={true}
+        ></Image>
+      )}
       <div>{errors && errors[0]}</div>
     </div>
   );
