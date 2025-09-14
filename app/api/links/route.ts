@@ -1,13 +1,18 @@
 import { NextResponse } from "next/server";
 import { sql } from "@/app/lib/db";
+import { headers } from "next/headers";
+import { auth } from "@/app/lib/auth";
 
 // GET /api/links
-export async function GET(req: Request) {
-  const url = new URL(req.url);
-  const userId = url.searchParams.get("userid");
+export async function GET() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const userId = session?.user.id;
 
   if (!userId) {
-    return NextResponse.json({ error: "Missing userid" }, { status: 400 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const { rows } = await sql.query(

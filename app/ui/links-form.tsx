@@ -41,7 +41,7 @@ export default function LinksForm() {
     const fetchLinks = async () => {
       setIsLoadingLinks(true);
       try {
-        const res = await fetch(`/api/links?userid=${userId}`);
+        const res = await fetch("/api/links");
         if (!res.ok) {
           setLinks([]); // fallback on error
           return;
