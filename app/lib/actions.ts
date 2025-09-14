@@ -68,11 +68,11 @@ export async function profile(
     UPDATE "user"
     SET image = $1
     WHERE id = $2
-    RETURNING image
+    RETURNING image AS old_image
   `;
-    type UserImageRow = { image: string | null };
+    type UserImageRow = { old_image: string | null };
     const { rows } = await sql.query<UserImageRow>(query, [imageId, userId]);
-    const oldImageId = rows[0]?.image;
+    const oldImageId = rows[0]?.old_image;
     if (oldImageId) {
       await deleteUserAvatar(oldImageId);
     }
