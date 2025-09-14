@@ -333,7 +333,7 @@ export async function deleteUserAvatar(key: string) {
   try {
     await R2.send(
       new DeleteObjectCommand({
-        Bucket: process.env.R2_BUCKET_NAME!,
+        Bucket: process.env.R2_BUCKET!,
         Key: key,
       }),
     );
