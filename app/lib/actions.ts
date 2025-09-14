@@ -21,7 +21,7 @@ import { customAlphabet, nanoid } from "nanoid";
 import { imageSize } from "image-size";
 import { headers } from "next/headers";
 import { R2 } from "@/app/lib/r2";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 
 export async function profile(
   _prevState: unknown,
@@ -68,8 +68,14 @@ export async function profile(
     UPDATE "user"
     SET image = $1
     WHERE id = $2
+    RETURNING image
   `;
-    await sql.query(query, [imageId, userId]);
+    type UserImageRow = { image: string | null };
+    const { rows } = await sql.query<UserImageRow>(query, [imageId, userId]);
+    const oldImageId = rows[0]?.image;
+    if (oldImageId) {
+      await deleteUserAvatar(oldImageId);
+    }
   } else {
     return submission.reply({
       fieldErrors: {
@@ -321,4 +327,21 @@ export async function uploadUserAvatar(avatar: File): Promise<UploadResult> {
   }
 
   return { success: true, imageId: fileName };
+}
+
+export async function deleteUserAvatar(key: string) {
+  try {
+    await R2.send(
+      new DeleteObjectCommand({
+        Bucket: process.env.R2_BUCKET_NAME!,
+        Key: key,
+      }),
+    );
+
+    console.log(`Deleted avatar: ${key}`);
+    return { success: true };
+  } catch (err) {
+    console.error("Error deleting avatar:", err);
+    return { success: false, error: err };
+  }
 }
