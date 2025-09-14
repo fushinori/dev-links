@@ -24,26 +24,22 @@ import { authClient } from "@/app/lib/auth-client";
 import { UserLink, ValidWebsite } from "@/app/lib/types";
 import { updatePositions } from "@/app/lib/utils";
 import { saveLinks } from "../lib/actions";
+import LinksFormSkeleton from "./skeletons/links-form-skeleton";
 
 export default function LinksForm() {
-  const { data: session, isPending } = authClient.useSession();
+  const { data: session } = authClient.useSession();
 
-  const [userId, setUserId] = useState<string | null>(null);
   const [links, setLinks] = useState<UserLink[]>([]);
+  const [isLoadingLinks, setIsLoadingLinks] = useState(true);
   const bottomDiv = useRef<null | HTMLDivElement>(null);
 
-  // Wait for session to load
-  useEffect(() => {
-    if (session?.user?.id) {
-      setUserId(session.user.id);
-    }
-  }, [session]);
-
+  const userId = session?.user.id;
   //Fetch initial links
   useEffect(() => {
     if (!userId) return;
 
     const fetchLinks = async () => {
+      setIsLoadingLinks(true);
       try {
         const res = await fetch(`/api/links?userid=${userId}`);
         if (!res.ok) {
@@ -56,6 +52,8 @@ export default function LinksForm() {
       } catch (error) {
         console.error("Failed to fetch links", error);
         setLinks([]); // fallback if fetch throws
+      } finally {
+        setIsLoadingLinks(false);
       }
     };
 
@@ -131,7 +129,7 @@ export default function LinksForm() {
   };
 
   // Render loading state until we have a valid userId
-  if (isPending || !userId) return <div>Loading...</div>;
+  if (isLoadingLinks) return <LinksFormSkeleton />;
 
   return (
     <>
