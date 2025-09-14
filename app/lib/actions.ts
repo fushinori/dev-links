@@ -68,7 +68,7 @@ export async function profile(
     UPDATE "user"
     SET image = $1
     WHERE id = $2
-    RETURNING image AS old_image
+    RETURNING (SELECT image FROM "user" WHERE id = $2) AS old_image
   `;
     type UserImageRow = { old_image: string | null };
     const { rows } = await sql.query<UserImageRow>(query, [imageId, userId]);
