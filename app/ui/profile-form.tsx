@@ -1,4 +1,5 @@
 "use client";
+
 import { useActionState } from "react";
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod/v4";
@@ -29,8 +30,6 @@ export default function ProfileForm() {
     shouldRevalidate: "onInput",
   });
 
-  console.log(fields);
-
   return (
     <form {...getFormProps(form)} action={action} noValidate>
       <ProfilePictureSelector
@@ -60,7 +59,11 @@ export default function ProfileForm() {
       </div>
 
       <div className="fixed bottom-0 left-0 w-full p-4 bg-white border-grey-300 border-t-[1px]">
-        <PrimaryButton className="w-full" type="submit">
+        <PrimaryButton
+          className="w-full disabled:bg-grey-300 disabled:shadow-none disabled:cursor-default"
+          type="submit"
+          disabled={!form.dirty}
+        >
           Save
         </PrimaryButton>
       </div>
