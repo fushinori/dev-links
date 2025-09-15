@@ -126,11 +126,19 @@ export interface BetterAuthErrorMessage {
 const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
 
 export const ProfileSchema = z.object({
-  image: z
-    .file()
-    .max(MAX_IMAGE_SIZE, "Image should not be larger than 2MB!")
-    .mime(["image/png", "image/jpeg"], "Image should be either JPG or PNG!")
-    .optional(),
+  image: z.preprocess(
+    (val) => {
+      // When input is empty, browser returns file with size 0
+      // We return undefined here for .optional()
+      if (val instanceof File && val.size === 0) return undefined;
+      return val;
+    },
+    z
+      .file()
+      .max(MAX_IMAGE_SIZE, "Image should not be larger than 2MB!")
+      .mime(["image/png", "image/jpeg"], "Image should be either JPG or PNG!")
+      .optional(),
+  ),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
   email: z
