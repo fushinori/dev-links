@@ -40,48 +40,43 @@ export async function profile(
   }
 
   const { image } = submission.value;
-  if (!image) {
-    return submission.reply({
-      fieldErrors: {
-        image: ["No image found."],
-      },
-    });
-  }
-  const buffer = Buffer.from(await image.arrayBuffer());
-  const dimensions = imageSize(buffer);
-  console.log(dimensions);
+  if (image) {
+    const buffer = Buffer.from(await image.arrayBuffer());
+    const dimensions = imageSize(buffer);
+    console.log(dimensions);
 
-  if (dimensions.width > 1024 || dimensions.height > 1024) {
-    return submission.reply({
-      fieldErrors: {
-        image: ["Image should be below 1024x1024px."],
-      },
-    });
-  }
+    if (dimensions.width > 1024 || dimensions.height > 1024) {
+      return submission.reply({
+        fieldErrors: {
+          image: ["Image should be below 1024x1024px."],
+        },
+      });
+    }
 
-  const result = await uploadUserAvatar(image);
-  if (result.success) {
-    const imageId = result.imageId;
-    // We will have a session for sure
-    const userId = session!.user.id;
-    const query = `
+    const result = await uploadUserAvatar(image);
+    if (result.success) {
+      const imageId = result.imageId;
+      // We will have a session for sure
+      const userId = session!.user.id;
+      const query = `
     UPDATE "user"
     SET image = $1
     WHERE id = $2
     RETURNING (SELECT image FROM "user" WHERE id = $2) AS old_image
   `;
-    type UserImageRow = { old_image: string | null };
-    const { rows } = await sql.query<UserImageRow>(query, [imageId, userId]);
-    const oldImageId = rows[0]?.old_image;
-    if (oldImageId) {
-      await deleteUserAvatar(oldImageId);
+      type UserImageRow = { old_image: string | null };
+      const { rows } = await sql.query<UserImageRow>(query, [imageId, userId]);
+      const oldImageId = rows[0]?.old_image;
+      if (oldImageId) {
+        await deleteUserAvatar(oldImageId);
+      }
+    } else {
+      return submission.reply({
+        fieldErrors: {
+          image: ["Failed to upload image."],
+        },
+      });
     }
-  } else {
-    return submission.reply({
-      fieldErrors: {
-        image: ["Failed to upload image."],
-      },
-    });
   }
 
   return { success: true };
