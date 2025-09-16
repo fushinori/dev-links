@@ -93,6 +93,7 @@ export default function ProfileForm({ user }: Props) {
           {...getInputProps(fields.email, { type: "email" })}
           placeholder="e.g alex@email.com"
           errors={fields.email.errors}
+          disabled={true}
         />
       </div>
 
@@ -122,7 +123,10 @@ function InputElement({ label, errors, ...props }: InputProps) {
         {label}
       </label>
 
-      <Input className="pl-4 bg-white" {...props} />
+      <Input
+        className="pl-4 bg-white disabled:bg-gray-100 disabled:text-gray-500"
+        {...props}
+      />
 
       {errors && <p className="text-sm text-red-400">{errors[0]}</p>}
     </div>
