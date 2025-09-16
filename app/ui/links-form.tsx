@@ -3,7 +3,7 @@
 import { PrimaryButton } from "@/app/ui/button/button-primary";
 import { SecondaryButton } from "@/app/ui/button/button-secondary";
 import LinkListBox from "@/app/ui/link-listbox";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   closestCenter,
   DndContext,
@@ -20,45 +20,17 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { authClient } from "@/app/lib/auth-client";
 import { UserLink, ValidWebsite } from "@/app/lib/types";
 import { updatePositions } from "@/app/lib/utils";
 import { saveLinks } from "../lib/actions";
-import LinksFormSkeleton from "./skeletons/links-form-skeleton";
 
-export default function LinksForm() {
-  const { data: session } = authClient.useSession();
+interface Props {
+  initialLinks: UserLink[];
+}
 
-  const [links, setLinks] = useState<UserLink[]>([]);
-  const [isLoadingLinks, setIsLoadingLinks] = useState(true);
+export default function LinksForm({ initialLinks }: Props) {
+  const [links, setLinks] = useState(initialLinks);
   const bottomDiv = useRef<null | HTMLDivElement>(null);
-
-  const userId = session?.user.id;
-  //Fetch initial links
-  useEffect(() => {
-    if (!userId) return;
-
-    const fetchLinks = async () => {
-      setIsLoadingLinks(true);
-      try {
-        const res = await fetch("/api/links");
-        if (!res.ok) {
-          setLinks([]); // fallback on error
-          return;
-        }
-
-        const data: UserLink[] = await res.json();
-        setLinks(data);
-      } catch (error) {
-        console.error("Failed to fetch links", error);
-        setLinks([]); // fallback if fetch throws
-      } finally {
-        setIsLoadingLinks(false);
-      }
-    };
-
-    fetchLinks();
-  }, [userId]);
 
   // Add sensors with delay of 100ms and tolerance of 5px
   const sensors = useSensors(
@@ -127,9 +99,6 @@ export default function LinksForm() {
       ),
     );
   };
-
-  // Render loading state until we have a valid userId
-  if (isLoadingLinks) return <LinksFormSkeleton />;
 
   return (
     <>

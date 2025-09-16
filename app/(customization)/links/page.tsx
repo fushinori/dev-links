@@ -4,6 +4,11 @@ import { redirect } from "next/navigation";
 
 import LinksForm from "@/app/ui/links-form";
 import VerifyToast from "@/app/ui/verify-toast";
+import { sql } from "@/app/lib/db";
+import { UserLink } from "@/app/lib/types";
+import { Suspense } from "react";
+import { Session } from "better-auth";
+import LinksFormSkeleton from "@/app/ui/skeletons/links-form-skeleton";
 
 export default async function Links() {
   const session = await auth.api.getSession({
@@ -28,8 +33,24 @@ export default async function Links() {
           Add/edit/remove links below and then share all your profiles with the
           world!
         </p>
-        <LinksForm />
+        <Suspense fallback=<LinksFormSkeleton />>
+          <LinksFormWrapper session={session.session} />
+        </Suspense>
       </div>
     </main>
   );
+}
+
+interface Props {
+  session: Session;
+}
+
+async function LinksFormWrapper({ session }: Props) {
+  const userId = session.userId;
+  const { rows } = await sql.query<UserLink>(
+    "SELECT id, position, website, username FROM link WHERE userid = $1 ORDER BY position ASC",
+    [userId],
+  );
+
+  return <LinksForm initialLinks={rows} />;
 }
