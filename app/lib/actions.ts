@@ -31,6 +31,9 @@ export async function profile(
     headers: await headers(),
   });
 
+  // We will have a session for sure
+  const userId = session!.user.id;
+
   const submission = parseWithZod(formData, {
     schema: ProfileSchema,
   });
@@ -39,7 +42,9 @@ export async function profile(
     return submission.reply();
   }
 
-  const { image } = submission.value;
+  const { image, firstName, lastName } = submission.value;
+
+  // Handle image
   if (image) {
     const buffer = Buffer.from(await image.arrayBuffer());
     const dimensions = imageSize(buffer);
@@ -56,8 +61,6 @@ export async function profile(
     const result = await uploadUserAvatar(image);
     if (result.success) {
       const imageId = result.imageId;
-      // We will have a session for sure
-      const userId = session!.user.id;
       const query = `
     UPDATE "user"
     SET image = $1
@@ -78,6 +81,16 @@ export async function profile(
       });
     }
   }
+
+  // Handle names
+  await sql.query(
+    `UPDATE "user"
+    SET
+      first_name = COALESCE($1, first_name),
+      last_name = COALESCE($2, last_name)
+    WHERE id = $3;`,
+    [firstName, lastName, userId],
+  );
 
   return { success: true };
 }
