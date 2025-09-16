@@ -11,4 +11,18 @@
   --color-grey-100: hsl(0, 0%, 98%);
 
   --color-red-400: hsl(0, 100%, 61%);
+
+  --color-github: hsl(0, 0%, 10%);
+  --color-frontendmentor: hsl(0, 0%, 100%);
+  --color-twitter: hsl(198, 79%, 59%);
+  --color-linkedin: hsl(223, 100%, 59%);
+  --color-youtube: hsl(0, 84%, 58%);
+  --color-facebook: hsl(227, 65%, 41%);
+  --color-twitch: hsl(313, 84%, 59%);
+  --color-devto: hsl(0, 0%, 20%);
+  --color-codewars: hsl(331, 68%, 32%);
+  --color-freecodecamp: hsl(252, 50%, 27%);
+  --color-gitlab: hsl(11, 83%, 53%);
+  --color-hashnode: hsl(227, 97%, 42%);
+  --color-stackoverflow: hsl(29, 100%, 46%);
 }
