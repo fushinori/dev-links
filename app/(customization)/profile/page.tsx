@@ -3,6 +3,10 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import ProfileForm from "@/app/ui/profile-form";
+import { Session } from "better-auth";
+import { sql } from "@/app/lib/db";
+import { User } from "@/app/lib/types";
+import { Suspense } from "react";
 
 export default async function Profile() {
   const session = await auth.api.getSession({
@@ -23,8 +27,28 @@ export default async function Profile() {
         <p className="text-grey-500 mb-10">
           Add your details to create a personal touch to your profile.
         </p>
-        <ProfileForm />
+        <Suspense>
+          <ProfileFormWrapper session={session.session} />
+        </Suspense>
       </div>
     </main>
   );
+}
+
+interface Props {
+  session: Session;
+}
+
+async function ProfileFormWrapper({ session }: Props) {
+  const userId = session.userId;
+  const { rows } = await sql.query<User>(
+    `SELECT first_name, last_name, email FROM "user" WHERE id = $1`,
+    [userId],
+  );
+
+  const user = rows[0];
+
+  if (!user) return;
+
+  return <ProfileForm user={user} />;
 }

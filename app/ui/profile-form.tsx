@@ -4,20 +4,24 @@ import { ChangeEvent, useActionState, useState } from "react";
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod/v4";
 import { useFormData, isDirty } from "@conform-to/react/future";
-import { ProfileSchema } from "@/app/lib/types";
+import { ProfileSchema, User } from "@/app/lib/types";
 import { profile } from "@/app/lib/actions";
 import Input from "@/app/ui/user-authentication/input-component";
 import ProfilePictureSelector from "@/app/ui/profile-picture-selector";
 import { PrimaryButton } from "@/app/ui/button/button-primary";
 
-export default function ProfileForm() {
+interface Props {
+  user: User;
+}
+
+export default function ProfileForm({ user }: Props) {
   const [lastResult, action] = useActionState(profile, undefined);
   const [imageDirty, setImageDirty] = useState(false);
 
   const defaultValue = {
-    firstName: "",
-    lastName: "",
-    email: "",
+    firstName: user.first_name,
+    lastName: user.last_name,
+    email: user.email,
     image: undefined,
   };
 

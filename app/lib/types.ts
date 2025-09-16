@@ -118,6 +118,12 @@ export interface UserLink {
   position: number;
 }
 
+export interface User {
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
 export interface BetterAuthErrorMessage {
   message: string;
   code: number;
