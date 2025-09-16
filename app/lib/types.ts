@@ -119,8 +119,8 @@ export interface UserLink {
 }
 
 export interface User {
-  first_name: string;
-  last_name: string;
+  first_name: string | null;
+  last_name: string | null;
   email: string;
 }
 
@@ -145,7 +145,7 @@ export const ProfileSchema = z.object({
       .mime(["image/png", "image/jpeg"], "Image should be either JPG or PNG!")
       .optional(),
   ),
-  firstName: z.string().optional(),
+  firstName: z.string("First name is required."),
   lastName: z.string().optional(),
   email: z
     .email({

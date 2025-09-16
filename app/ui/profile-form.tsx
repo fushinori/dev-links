@@ -19,16 +19,15 @@ export default function ProfileForm({ user }: Props) {
   const [imageDirty, setImageDirty] = useState(false);
 
   const defaultValue = {
-    firstName: user.first_name,
-    lastName: user.last_name,
+    firstName: user.first_name ?? "",
+    lastName: user.last_name ?? "",
     email: user.email,
     image: undefined,
   };
 
   const [form, fields] = useForm({
     // Sync the result of last submission if not success
-    lastResult:
-      lastResult && !("success" in lastResult) ? lastResult : undefined,
+    lastResult,
 
     // Pass default values to check if form is dirty
     defaultValue,
@@ -93,7 +92,7 @@ export default function ProfileForm({ user }: Props) {
           {...getInputProps(fields.email, { type: "email" })}
           placeholder="e.g alex@email.com"
           errors={fields.email.errors}
-          disabled={true}
+          readOnly={true}
         />
       </div>
 
@@ -124,7 +123,7 @@ function InputElement({ label, errors, ...props }: InputProps) {
       </label>
 
       <Input
-        className="pl-4 bg-white disabled:bg-gray-100 disabled:text-gray-500"
+        className="pl-4 bg-white read-only:bg-gray-100 read-only:text-gray-500"
         {...props}
       />
 

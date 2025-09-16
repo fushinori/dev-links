@@ -26,7 +26,7 @@ import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 export async function profile(
   _prevState: unknown,
   formData: FormData,
-): Promise<SubmissionResult<string[]> | { success: true }> {
+): Promise<SubmissionResult<string[]>> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -85,14 +85,14 @@ export async function profile(
   // Handle names
   await sql.query(
     `UPDATE "user"
-    SET
-      first_name = COALESCE($1, first_name),
-      last_name = COALESCE($2, last_name)
+    SET first_name = $1,
+        last_name = $2
     WHERE id = $3;`,
     [firstName, lastName, userId],
   );
 
-  return { success: true };
+  revalidatePath("/profile");
+  redirect("/profile");
 }
 
 export async function signUp(
