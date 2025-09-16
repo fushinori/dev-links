@@ -9,6 +9,7 @@ import { profile } from "@/app/lib/actions";
 import Input from "@/app/ui/user-authentication/input-component";
 import ProfilePictureSelector from "@/app/ui/profile-picture-selector";
 import { PrimaryButton } from "@/app/ui/button/button-primary";
+import { cn } from "@/app/lib/utils";
 
 interface Props {
   user: User;
@@ -123,7 +124,10 @@ function InputElement({ label, errors, ...props }: InputProps) {
       </label>
 
       <Input
-        className="pl-4 bg-white read-only:bg-gray-100 read-only:text-gray-500"
+        className={cn(
+          "pl-4 bg-white read-only:bg-gray-100 read-only:text-gray-500",
+          errors && "border-red-400",
+        )}
         {...props}
       />
 
