@@ -24,6 +24,11 @@ export default function ProfilePictureSelector({
       reader.readAsDataURL(file);
     }
 
+    // If validation errors, set value to empty string for dirty checking
+    if (error) {
+      e.target.value = "";
+    }
+
     // Execute the dirty checker
     if (onChange) onChange(e);
   };

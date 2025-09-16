@@ -56,9 +56,9 @@ export default function ProfileForm() {
 
   // Check if image input is dirty and update state accordingly
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    // Check if file exists and that its size is greater than 0
-    setImageDirty(!!file && file.size > 0);
+    // If value is "", then no image
+    const isImage = e.target.value.length === 0;
+    setImageDirty(!isImage);
   }
 
   const dirty = inputDirty || imageDirty;
@@ -68,7 +68,7 @@ export default function ProfileForm() {
       <ProfilePictureSelector
         {...getInputProps(fields.image, { type: "file" })}
         error={fields.image.errors}
-        onChange={handleChange} // Pass in event handler to check if image has been selected
+        onChange={handleChange} // Pass in event handler to check if valid image has been selected
       />
 
       <div className="w-full bg-grey-100 rounded-xl p-5 flex flex-col gap-3 my-6">
