@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { ChangeEvent, useActionState, useState } from "react";
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod/v4";
+import { useFormData, isDirty } from "@conform-to/react/future";
 import { ProfileSchema } from "@/app/lib/types";
 import { profile } from "@/app/lib/actions";
 import Input from "@/app/ui/user-authentication/input-component";
@@ -11,11 +12,23 @@ import { PrimaryButton } from "@/app/ui/button/button-primary";
 
 export default function ProfileForm() {
   const [lastResult, action] = useActionState(profile, undefined);
+  const [imageDirty, setImageDirty] = useState(false);
+
+  const defaultValue = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    image: undefined,
+  };
 
   const [form, fields] = useForm({
     // Sync the result of last submission if not success
     lastResult:
       lastResult && !("success" in lastResult) ? lastResult : undefined,
+
+    // Pass default values to check if form is dirty
+    defaultValue,
+
     // Reuse the validation logic on the client
     onValidate({ formData }) {
       return parseWithZod(formData, {
@@ -30,11 +43,32 @@ export default function ProfileForm() {
     shouldRevalidate: "onInput",
   });
 
+  // Check whether the text inputs are dirty
+  const inputDirty = useFormData(
+    form.id,
+    (formData) =>
+      isDirty(formData, {
+        defaultValue,
+        // Skip server action hidden inputs and image
+        skipEntry: (name) => name.startsWith("$ACTION") || name === "image",
+      }) ?? false,
+  );
+
+  // Check if image input is dirty and update state accordingly
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    // Check if file exists and that its size is greater than 0
+    setImageDirty(!!file && file.size > 0);
+  }
+
+  const dirty = inputDirty || imageDirty;
+
   return (
     <form {...getFormProps(form)} action={action} noValidate>
       <ProfilePictureSelector
         {...getInputProps(fields.image, { type: "file" })}
         error={fields.image.errors}
+        onChange={handleChange} // Pass in event handler to check if image has been selected
       />
 
       <div className="w-full bg-grey-100 rounded-xl p-5 flex flex-col gap-3 my-6">
@@ -62,7 +96,8 @@ export default function ProfileForm() {
         <PrimaryButton
           className="w-full disabled:bg-grey-300 disabled:shadow-none disabled:cursor-default"
           type="submit"
-          disabled={!form.dirty}
+          // Disable button if form is not dirty
+          disabled={!dirty}
         >
           Save
         </PrimaryButton>

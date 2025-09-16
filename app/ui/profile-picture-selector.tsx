@@ -7,7 +7,11 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string[];
 }
 
-export default function ProfilePictureSelector({ error, ...props }: Props) {
+export default function ProfilePictureSelector({
+  error,
+  onChange,
+  ...props
+}: Props) {
   const [preview, setPreview] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,6 +23,9 @@ export default function ProfilePictureSelector({ error, ...props }: Props) {
       };
       reader.readAsDataURL(file);
     }
+
+    // Execute the dirty checker
+    if (onChange) onChange(e);
   };
 
   const showPreview = preview && !error;
