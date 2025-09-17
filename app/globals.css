@@ -27,3 +27,13 @@
   --color-hashnode: hsl(227, 97%, 42%);
   --color-stackoverflow: hsl(29, 100%, 46%);
 }
+
+.start-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  direction: rtl;
+  /* Flip text direction */
+  text-align: right;
+  /* But keep alignment visually correct */
+}

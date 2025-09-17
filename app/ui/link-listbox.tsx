@@ -87,7 +87,7 @@ export default function LinkListBox({
               onWebsiteChange(id, website.name);
             }}
           >
-            <ListboxButton className="group flex justify-between rounded-lg bg-white w-full min-w-[300px] py-3 px-4 text-grey-700 outline-none border border-grey-300 focus:border-purple-400 data-open:border-purple-400 focus:shadow-lg/65 focus:shadow-grey-300">
+            <ListboxButton className="group flex justify-between rounded-lg bg-white w-full min-w-[270px] py-3 px-4 text-grey-700 outline-none border border-grey-300 focus:border-purple-400 data-open:border-purple-400 focus:shadow-lg/65 focus:shadow-grey-300">
               <div className="flex gap-2">
                 <Image
                   src={selectedWebsite!.icon}
@@ -146,8 +146,13 @@ export default function LinkListBox({
           <Label className="text-grey-700 text-xs block mb-1">Link</Label>
           <div className="flex items-center rounded-lg border border-grey-300 bg-white w-full focus-within:border-purple-400 focus-within:shadow-lg/65 focus-within:shadow-grey-300">
             {/* URL Prefix */}
-            <span className="pl-4 py-3 text-grey-700 truncate max-w-[50%]">
-              {selectedWebsite!.prefix}
+            <span className="pl-4 py-3 text-grey-700 max-w-[50%] sm:max-w-none flex">
+              <span className="start-ellipsis">
+                {/* Remove the slash from the end to not mess with the start ellipsis hack */}
+                {selectedWebsite!.prefix.slice(0, -1)}
+              </span>
+              {/* Add the slash */}
+              <span>/</span>
             </span>
 
             <Input
