@@ -46,8 +46,6 @@ export default function LinkListBox({
     transition,
   };
 
-  console.log(id);
-
   return (
     <div ref={setNodeRef} style={style}>
       <Fieldset className="w-full bg-grey-100 rounded-xl p-5 flex flex-col gap-3 my-6">
