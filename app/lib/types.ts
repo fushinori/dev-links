@@ -124,6 +124,13 @@ export interface User {
   email: string;
 }
 
+export interface UserInfo {
+  id: string;
+  full_name: string;
+  email: string;
+  image: string | null;
+}
+
 export interface BetterAuthErrorMessage {
   message: string;
   code: number;
