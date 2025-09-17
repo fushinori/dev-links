@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "2.5mb",
     },
   },
+  images: {
+    remotePatterns: [new URL(`${process.env.IMAGE_DOMAIN!}/**`)],
+  },
 };
 
 export default nextConfig;
