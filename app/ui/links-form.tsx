@@ -21,8 +21,9 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { UserLink, ValidWebsite } from "@/app/lib/types";
-import { updatePositions } from "@/app/lib/utils";
+import { updatePositions, cn } from "@/app/lib/utils";
 import { saveLinks } from "../lib/actions";
+import Image from "next/image";
 
 interface Props {
   initialLinks: UserLink[];
@@ -103,6 +104,8 @@ export default function LinksForm({ initialLinks }: Props) {
   return (
     <>
       <form
+        // Add some bottom padding if there are no links
+        className={cn(links.length === 0 && "pb-24")}
         noValidate
         action={async (formData: FormData) => {
           // Get data from hidden input
@@ -122,29 +125,37 @@ export default function LinksForm({ initialLinks }: Props) {
         >
           + Add new link
         </SecondaryButton>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext
-            items={links.map((item) => item.id)}
-            strategy={verticalListSortingStrategy}
+
+        {/* Render only if there are links */}
+        {links.length > 0 && (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
           >
-            {links.map((link) => (
-              <LinkListBox
-                key={link.id}
-                id={link.id}
-                position={link.position}
-                name={link.website}
-                username={link.username}
-                onRemove={handleRemove}
-                onUsernameChange={handleUsernameChange}
-                onWebsiteChange={handleWebsiteChange}
-              />
-            ))}
-          </SortableContext>
-        </DndContext>
+            <SortableContext
+              items={links.map((item) => item.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {links.map((link) => (
+                <LinkListBox
+                  key={link.id}
+                  id={link.id}
+                  position={link.position}
+                  name={link.website}
+                  username={link.username}
+                  onRemove={handleRemove}
+                  onUsernameChange={handleUsernameChange}
+                  onWebsiteChange={handleWebsiteChange}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+        )}
+
+        {/* Render if no links */}
+        {links.length === 0 && <GetStarted />}
+
         <div className="bottomDiv" ref={bottomDiv}></div>
         <div className="fixed bottom-0 left-0 w-full p-4 bg-white border-grey-300 border-t-[1px]">
           <PrimaryButton className="w-full" type="submit">
@@ -153,5 +164,28 @@ export default function LinksForm({ initialLinks }: Props) {
         </div>
       </form>
     </>
+  );
+}
+
+function GetStarted() {
+  return (
+    <section className="bg-grey-100 flex flex-col gap-6 items-center rounded-xl p-5 mt-6">
+      <Image
+        src="/illustration-empty.svg"
+        alt=""
+        height={200}
+        width={130}
+        priority={true}
+        aria-hidden
+      />
+      <h2 className="text-grey-700 font-bold text-2xl">
+        Let&apos;s get you started
+      </h2>
+      <p className="text-grey-500">
+        Use the &ldquo;Add new link&rdquo; button to get started. Once you have
+        more than one link, you can reorder and edit them. We&rsquo;re here to
+        help you share your profiles with everyone!
+      </p>
+    </section>
   );
 }
