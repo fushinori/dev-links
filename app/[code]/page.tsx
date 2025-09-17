@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import Link from "@/app/ui/link";
 import { auth } from "@/app/lib/auth";
 import LinkNav from "@/app/ui/link-nav";
+import { Suspense } from "react";
 
 export default async function Page({
   params,
@@ -56,7 +57,9 @@ export default async function Page({
           <p className="text-grey-500 ">{email}</p>
         </section>
 
-        <Links profileCode={code} />
+        <Suspense>
+          <Links profileCode={code} />
+        </Suspense>
       </main>
     </>
   );
