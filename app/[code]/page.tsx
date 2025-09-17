@@ -74,7 +74,8 @@ async function Links({ profileCode }: LinkProps) {
     `SELECT link.id, website, username, position
     FROM link
     JOIN "user" ON link.userid = "user".id
-    WHERE profile_code = $1;`,
+    WHERE profile_code = $1
+    ORDER BY position;`,
     [profileCode],
   );
 
