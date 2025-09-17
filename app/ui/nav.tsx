@@ -4,30 +4,33 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/app/lib/utils";
-
-const links = [
-  {
-    name: "Links",
-    href: "/links",
-    icon: "/icon-links-header.svg",
-    iconActive: "/icon-links-header-active.svg",
-  },
-  {
-    name: "Profile",
-    href: "/profile",
-    icon: "/icon-profile-details-header.svg",
-    iconActive: "icon-profile-details-header-active.svg",
-  },
-  {
-    name: "Preview",
-    href: "/preview",
-    icon: "/icon-preview-header.svg",
-    iconActive: "/icon-preview-header.svg",
-  },
-];
+import { authClient } from "@/app/lib/auth-client";
 
 export default function NavBar() {
   const pathname = usePathname();
+  const { data: session } = authClient.useSession();
+  const profileCode = session?.user.profile_code;
+
+  const links = [
+    {
+      name: "Links",
+      href: "/links",
+      icon: "/icon-links-header.svg",
+      iconActive: "/icon-links-header-active.svg",
+    },
+    {
+      name: "Profile",
+      href: "/profile",
+      icon: "/icon-profile-details-header.svg",
+      iconActive: "/icon-profile-details-header-active.svg",
+    },
+    {
+      name: "Preview",
+      href: `/${profileCode}`,
+      icon: "/icon-preview-header.svg",
+      iconActive: "/icon-preview-header.svg",
+    },
+  ];
 
   return (
     <nav className="md:hidden flex justify-between py-3">
