@@ -24,3 +24,6 @@ CREATE TABLE link (
     CONSTRAINT unique_user_position UNIQUE (userid, position) 
         DEFERRABLE INITIALLY DEFERRED
 );
+
+ALTER TABLE "user" ADD COLUMN first_name TEXT;
+ALTER TABLE "user" ADD COLUMN last_name TEXT;
