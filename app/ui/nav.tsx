@@ -48,14 +48,16 @@ export default function NavBar() {
           <Link
             key={link.name}
             href={link.href}
-            className={cn("px-6 py-2", {
+            className={cn("px-6 py-2 flex items-center", {
               "bg-purple-200 rounded-md": pathname === link.href,
             })}
           >
             <Image
               src={pathname === link.href ? link.iconActive : link.icon}
-              height={24}
-              width={24}
+              height={0}
+              width={0}
+              sizes="100vw"
+              className="w-5 h-auto"
               alt={link.name}
             ></Image>
           </Link>
@@ -63,8 +65,8 @@ export default function NavBar() {
       </nav>
 
       {/* Tablet and Desktop Nav*/}
-      <nav className="hidden md:flex justify-between px-6 py-6">
-        <div className="px-6 py-2">
+      <nav className="hidden md:flex justify-between items-center px-6 py-6 md:bg-white md:rounded-xl md:m-6">
+        <div>
           <Image
             src="/logo-devlinks-large.svg"
             height={32}
@@ -87,8 +89,10 @@ export default function NavBar() {
               >
                 <Image
                   src={pathname === link.href ? link.iconActive : link.icon}
-                  height={20}
-                  width={20}
+                  height={0}
+                  width={0}
+                  sizes="100vw"
+                  className="w-5 h-auto"
                   alt=""
                   aria-hidden
                 />
