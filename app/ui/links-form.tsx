@@ -157,8 +157,8 @@ export default function LinksForm({ initialLinks }: Props) {
         {links.length === 0 && <GetStarted />}
 
         <div className="bottomDiv" ref={bottomDiv}></div>
-        <div className="fixed bottom-0 left-0 w-full p-4 bg-white border-grey-300 border-t-[1px]">
-          <PrimaryButton className="w-full" type="submit">
+        <div className="fixed bottom-0 left-0 flex justify-end w-full p-4 md:p-6 bg-white border-grey-300 border-t-[1px]">
+          <PrimaryButton className="w-full md:w-auto" type="submit">
             Save
           </PrimaryButton>
         </div>
@@ -169,19 +169,23 @@ export default function LinksForm({ initialLinks }: Props) {
 
 function GetStarted() {
   return (
-    <section className="bg-grey-100 flex flex-col gap-6 items-center rounded-xl p-5 mt-6">
-      <Image
-        src="/illustration-empty.svg"
-        alt=""
-        height={200}
-        width={130}
-        priority={true}
-        aria-hidden
-      />
-      <h2 className="text-grey-700 font-bold text-2xl">
+    <section className="bg-grey-100 flex flex-col gap-6 items-center rounded-xl p-5 mt-6 md:p-20">
+      <div className="w-32 md:w-60">
+        <Image
+          src="/illustration-empty.svg"
+          alt=""
+          width={0}
+          height={0}
+          sizes="100vw"
+          priority
+          aria-hidden
+          className="w-full h-auto"
+        />
+      </div>
+      <h2 className="text-grey-700 font-bold text-2xl md:text-3xl">
         Let&apos;s get you started
       </h2>
-      <p className="text-grey-500">
+      <p className="text-grey-500 md:text-center">
         Use the &ldquo;Add new link&rdquo; button to get started. Once you have
         more than one link, you can reorder and edit them. We&rsquo;re here to
         help you share your profiles with everyone!

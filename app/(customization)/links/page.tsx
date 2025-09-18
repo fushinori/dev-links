@@ -21,12 +21,12 @@ export default async function Links() {
   }
 
   return (
-    <main className="p-4 bg-grey-100">
+    <main className="p-4 md:p-6 bg-grey-100">
       {/* Toast component */}
       <VerifyToast />
 
-      <div className="bg-white p-6 rounded-sm">
-        <h1 className="font-bold text-2xl text-grey-700 mb-2">
+      <div className="bg-white p-6 rounded-sm md:rounded-xl md:p-10">
+        <h1 className="font-bold text-2xl md:text-3xl text-grey-700 mb-2">
           Customize your links
         </h1>
         <p className="text-grey-500 mb-10">
