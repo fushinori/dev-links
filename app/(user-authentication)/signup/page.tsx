@@ -58,7 +58,7 @@ function SignUpForm() {
       id={form.id}
       onSubmit={form.onSubmit}
       action={action}
-      className="bg-white rounded-xl flex flex-col gap-10"
+      className="bg-white rounded-xl flex flex-col gap-10 md:min-w-96"
       noValidate
     >
       <div>
