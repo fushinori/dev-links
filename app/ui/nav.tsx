@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/app/lib/utils";
 import { authClient } from "@/app/lib/auth-client";
-import { SecondaryButton } from "@/app/ui/button/button-secondary";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -82,7 +81,7 @@ export default function NavBar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={cn("flex gap-1.5 px-7 py-3 text-purple-400", {
+                className={cn("flex gap-1.5 px-7 py-3 group", {
                   "bg-purple-200 rounded-md": pathname === link.href,
                 })}
               >
@@ -95,7 +94,7 @@ export default function NavBar() {
                 />
                 <span
                   className={cn(
-                    "text-grey-500 font-semibold hover:text-inherit",
+                    "text-grey-500 font-semibold group-hover:text-purple-400",
                     pathname === link.href && "text-purple-400",
                   )}
                 >
@@ -106,7 +105,12 @@ export default function NavBar() {
         </div>
 
         {/* Preview */}
-        <SecondaryButton className="px-7">Preview</SecondaryButton>
+        <Link
+          href={`/${profileCode}`}
+          className="flex justify-center rounded-lg px-7 py-3 text-purple-400 font-semibold border-purple-400 border cursor-pointer hover:bg-purple-200"
+        >
+          Preview
+        </Link>
       </nav>
     </>
   );
