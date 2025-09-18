@@ -14,8 +14,10 @@ function SignUpForm() {
   const [lastResult, action] = useActionState(signUp, undefined);
 
   useEffect(() => {
-    // If lastResult is from Better Auth
-    if (lastResult && "isAuthError" in lastResult) {
+    if (!lastResult) return;
+
+    // Handle Better Auth errors
+    if ("isAuthError" in lastResult) {
       if (lastResult.isAuthError) {
         const apiError = lastResult.betterAuthError;
         if (apiError.code === 403) {
@@ -26,6 +28,14 @@ function SignUpForm() {
       } else {
         toast.error("Unexpected error.");
       }
+    }
+
+    // Handle successful signup
+    if ("success" in lastResult && lastResult.success) {
+      toast(
+        "We've sent you a verification email.\n\nCheck your spam folder if you don't see it.",
+        { icon: "✉️" },
+      );
     }
   }, [lastResult]);
 

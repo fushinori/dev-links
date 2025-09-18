@@ -103,6 +103,7 @@ export async function signUp(
   | (SubmissionResult & {
       betterAuthError: BetterAuthErrorMessage;
       isAuthError: boolean;
+      success: boolean;
     })
 > {
   const submission = parseWithZod(formData, { schema: SignUpSchema });
@@ -129,11 +130,16 @@ export async function signUp(
         profile_code: profileCode,
       },
     });
+
+    return {
+      ...submission.reply(),
+      success: true,
+    };
   } catch (error) {
     if (error instanceof APIError) {
       console.log(error.message, error.status);
       const authError: BetterAuthErrorMessage = {
-        message: error.message || "Login failed",
+        message: error.message || "Signup failed",
         code: error.statusCode,
       };
       return {
@@ -148,8 +154,6 @@ export async function signUp(
       isAuthError: false,
     };
   }
-
-  redirect("/login");
 }
 
 export async function login(
