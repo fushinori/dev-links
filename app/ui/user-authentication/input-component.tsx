@@ -13,7 +13,7 @@ export default function Input({
   ...rest
 }: InputProps) {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <input
         className={cn(
           "outline-none w-full border-grey-300 border-[1px] rounded-lg px-4 py-3 placeholder:text-grey-500 pl-10 focus:border-purple-400 focus:shadow-lg/65 focus:shadow-grey-300",
