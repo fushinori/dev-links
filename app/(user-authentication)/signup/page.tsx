@@ -58,11 +58,11 @@ function SignUpForm() {
       id={form.id}
       onSubmit={form.onSubmit}
       action={action}
-      className="bg-white rounded-xl flex flex-col gap-10 md:p-8"
+      className="bg-white rounded-xl flex flex-col gap-10"
       noValidate
     >
       <div>
-        <h1 className="text-grey-700 font-bold text-[1.5rem] mb-2">
+        <h1 className="text-grey-700 font-bold text-[1.5rem] md:text-3xl mb-2">
           Create account
         </h1>
         <p className="text-grey-500">
@@ -72,7 +72,7 @@ function SignUpForm() {
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-grey-700 text-[0.75rem]">
+          <label htmlFor="email" className="text-grey-700 text-xs">
             Email address
           </label>
 
@@ -89,7 +89,7 @@ function SignUpForm() {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="password" className="text-grey-700 text-[0.75rem]">
+          <label htmlFor="password" className="text-grey-700 text-xs">
             Create password
           </label>
 
@@ -106,10 +106,7 @@ function SignUpForm() {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label
-            htmlFor="confirm-password"
-            className="text-grey-700 text-[0.75rem]"
-          >
+          <label htmlFor="confirm-password" className="text-grey-700 text-xs">
             Confirm password
           </label>
 
@@ -125,7 +122,7 @@ function SignUpForm() {
           />
         </div>
 
-        <p className="text-grey-500 text-[0.75rem]">
+        <p className="text-grey-500 text-xs">
           Password must contain at least 8 characters
         </p>
 

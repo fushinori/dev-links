@@ -7,7 +7,7 @@ export default function UserAuthenticationLayout({
 }) {
   return (
     <div className="md:grid md:min-h-screen md:place-items-center p-8">
-      <div className="flex flex-col gap-16 md:items-center">
+      <div className="flex flex-col gap-16 md:items-center md:min-w-96">
         <Image src="/logo-devlinks-large.svg" height={175} width={175} alt="" />
         {children}
       </div>
