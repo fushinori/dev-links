@@ -19,9 +19,9 @@ export default async function Profile() {
   }
 
   return (
-    <main className="p-4 bg-grey-100">
-      <div className="bg-white p-6 rounded-sm">
-        <h1 className="font-bold text-2xl text-grey-700 mb-2">
+    <main className="p-4 md:p-6 bg-grey-100">
+      <div className="bg-white p-6 md:p-10 rounded-sm md:rounded-xl">
+        <h1 className="font-bold text-2xl md:text-3xl text-grey-700 mb-2">
           Profile Details
         </h1>
         <p className="text-grey-500 mb-10">

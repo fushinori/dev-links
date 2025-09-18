@@ -36,57 +36,59 @@ export default function ProfilePictureSelector({
   const showPreview = preview && !error;
 
   return (
-    <div className="w-full bg-grey-100 rounded-xl p-5 flex flex-col gap-4 my-10">
+    <div className="w-full bg-grey-100 rounded-xl p-5 flex flex-col gap-4 my-6 md:flex-row md:items-center md:justify-between">
       <p className="text-grey-500">Profile picture</p>
-      <label
-        htmlFor={props.id}
-        className="relative overflow-hidden rounded-xl bg-purple-200 flex flex-col gap-3 w-2/3 min-w-50 items-center justify-center py-14 px-10 cursor-pointer"
-        style={
-          showPreview
-            ? {
-                backgroundImage: `url(${preview})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }
-            : {}
-        }
-      >
-        {/* Overlay only if preview exists */}
-        {showPreview && <div className="absolute inset-0 bg-black/40" />}
+      <div className="flex flex-col md:flex-row md:items-center gap-4">
+        <label
+          htmlFor={props.id}
+          className="relative overflow-hidden rounded-xl bg-purple-200 flex flex-col gap-3 w-2/3 min-w-52 max-w-52 items-center justify-center py-14 px-10 cursor-pointer"
+          style={
+            showPreview
+              ? {
+                  backgroundImage: `url(${preview})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }
+              : {}
+          }
+        >
+          {/* Overlay only if preview exists */}
+          {showPreview && <div className="absolute inset-0 bg-black/40" />}
 
-        <div className="relative z-10 flex flex-col items-center gap-3">
-          {/* Icon styled with mask-image so we can recolor */}
-          <div
-            className={cn(
-              "w-[35px] h-[35px]",
-              showPreview ? "bg-white" : "bg-purple-400",
-            )}
-            style={{
-              WebkitMaskImage: "url(/icon-upload-image.svg)",
-              WebkitMaskRepeat: "no-repeat",
-              WebkitMaskPosition: "center",
-              WebkitMaskSize: "contain",
-              maskImage: "url(/icon-upload-image.svg)",
-              maskRepeat: "no-repeat",
-              maskPosition: "center",
-              maskSize: "contain",
-            }}
-          />
+          <div className="relative z-10 flex flex-col items-center gap-3">
+            {/* Icon styled with mask-image so we can recolor */}
+            <div
+              className={cn(
+                "w-[35px] h-[35px]",
+                showPreview ? "bg-white" : "bg-purple-400",
+              )}
+              style={{
+                WebkitMaskImage: "url(/icon-upload-image.svg)",
+                WebkitMaskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+                WebkitMaskSize: "contain",
+                maskImage: "url(/icon-upload-image.svg)",
+                maskRepeat: "no-repeat",
+                maskPosition: "center",
+                maskSize: "contain",
+              }}
+            />
 
-          <p
-            className={cn(
-              "font-semibold",
-              showPreview ? "text-white" : "text-purple-400",
-            )}
-          >
-            {showPreview ? "Change Image" : "+ Upload Image"}
-          </p>
-        </div>
-      </label>
-      {error && <p className="text-sm text-red-400">{error[0]}</p>}
-      <p className="text-grey-500 text-xs">
-        Image must be below 1024x1024px. Use PNG or JPG format.
-      </p>
+            <p
+              className={cn(
+                "font-semibold",
+                showPreview ? "text-white" : "text-purple-400",
+              )}
+            >
+              {showPreview ? "Change Image" : "+ Upload Image"}
+            </p>
+          </div>
+        </label>
+        {error && <p className="text-sm text-red-400">{error[0]}</p>}
+        <p className="text-grey-500 text-xs md:max-w-32">
+          Image must be below 1024x1024px. Use PNG or JPG format.
+        </p>
+      </div>
 
       <input
         type="file"

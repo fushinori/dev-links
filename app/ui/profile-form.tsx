@@ -97,9 +97,9 @@ export default function ProfileForm({ user }: Props) {
         />
       </div>
 
-      <div className="fixed bottom-0 left-0 w-full p-4 bg-white border-grey-300 border-t-[1px]">
+      <div className="fixed bottom-0 left-0 flex justify-end w-full p-4 md:p-6 bg-white border-grey-300 border-t-[1px]">
         <PrimaryButton
-          className="w-full disabled:bg-grey-300 disabled:shadow-none disabled:cursor-default"
+          className="w-full md:w-auto disabled:bg-grey-300 disabled:shadow-none disabled:cursor-default"
           type="submit"
           // Disable button if form is not dirty
           disabled={!dirty}
@@ -118,18 +118,23 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 function InputElement({ label, errors, ...props }: InputProps) {
   return (
-    <div className="flex flex-col gap-1">
-      <label htmlFor={props.id} className="text-grey-700 text-[0.75rem]">
+    <div className="flex flex-col md:flex-row gap-1 md:gap-4 md:justify-between md:items-center">
+      <label
+        htmlFor={props.id}
+        className="text-grey-700 md:text-grey-500 text-[0.75rem] md:text-base"
+      >
         {label}
       </label>
 
-      <Input
-        className={cn(
-          "pl-4 bg-white read-only:bg-gray-100 read-only:text-gray-500",
-          errors && "border-red-400",
-        )}
-        {...props}
-      />
+      <div className="md:w-1/2">
+        <Input
+          className={cn(
+            "pl-4 bg-white read-only:bg-gray-100 read-only:text-gray-500",
+            errors && "border-red-400",
+          )}
+          {...props}
+        />
+      </div>
 
       {errors && <p className="text-sm text-red-400">{errors[0]}</p>}
     </div>
