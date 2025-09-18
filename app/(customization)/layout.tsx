@@ -6,9 +6,9 @@ export default function CustomizationLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="max-w-3xl mx-auto">
       <NavBar />
       {children}
-    </>
+    </div>
   );
 }
