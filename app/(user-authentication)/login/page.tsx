@@ -70,7 +70,7 @@ function LoginForm() {
       id={form.id}
       onSubmit={form.onSubmit}
       action={action}
-      className="bg-white rounded-xl flex flex-col gap-10 md:min-w-96"
+      className="bg-white rounded-xl flex flex-col gap-10 md:min-w-96 p-10"
       noValidate
     >
       <div>
