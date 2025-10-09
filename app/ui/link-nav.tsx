@@ -15,7 +15,7 @@ export default function LinkNav() {
   };
 
   return (
-    <nav className="flex justify-between p-4">
+    <nav className="flex justify-between p-4 md:m-6 md:rounded-2xl md:bg-white md:absolute md:inset-x-0 z-30">
       <Link
         href="/links"
         className="flex justify-center rounded-lg px-6 py-3 text-purple-400 font-semibold border-purple-400 border cursor-pointer"

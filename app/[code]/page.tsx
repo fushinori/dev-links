@@ -42,8 +42,11 @@ export default async function Page({
 
   return (
     <>
+      {/* Nav bar */}
       {canEdit && <LinkNav />}
-      <main className="m-16">
+
+      {/* Mobile */}
+      <main className="m-16 md:hidden">
         <section className="flex flex-col justify-center items-center mb-14">
           <div className="relative w-28 h-28 rounded-full border-purple-400 border-[3px] overflow-hidden mb-5">
             <Image
@@ -54,12 +57,38 @@ export default async function Page({
             />
           </div>
           <h1 className="text-grey-700 font-bold text-3xl mb-1">{name}</h1>
-          <p className="text-grey-500 ">{email}</p>
+          <p className="text-grey-500">{email}</p>
         </section>
 
         <Suspense>
           <Links profileCode={code} />
         </Suspense>
+      </main>
+
+      {/* Tablet and Desktop */}
+      <main className="relative min-h-screen hidden md:block bg-gray-50">
+        {/* Purple background styles */}
+        <div className="absolute top-0 left-0 w-full h-1/3 bg-purple-400 rounded-b-3xl"></div>
+
+        {/* Main content wrapper with padding so it doesn't overlap with nav bar */}
+        <div className="relative z-10 py-40 grid place-items-center">
+          <section className="bg-white shadow-xl rounded-3xl flex flex-col justify-center items-center p-12">
+            <div className="relative w-28 h-28 rounded-full border-purple-400 border-[3px] overflow-hidden mb-5">
+              <Image
+                src={avatar}
+                alt={`Avatar of ${name}`}
+                fill
+                className="object-cover block"
+              />
+            </div>
+            <h1 className="text-gray-700 font-bold text-3xl mb-1">{name}</h1>
+            <p className="text-gray-500 mb-14">{email}</p>
+
+            <Suspense>
+              <Links profileCode={code} />
+            </Suspense>
+          </section>
+        </div>
       </main>
     </>
   );
@@ -80,7 +109,10 @@ async function Links({ profileCode }: LinkProps) {
   );
 
   return (
-    <section aria-label="Links" className="flex flex-col gap-5 text-white">
+    <section
+      aria-label="Links"
+      className="flex flex-col gap-5 text-white w-full"
+    >
       {rows.map((link) => (
         <Link key={link.id} link={link} />
       ))}
