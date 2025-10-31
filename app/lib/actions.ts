@@ -42,7 +42,7 @@ export async function profile(
     return submission.reply();
   }
 
-  const { image, firstName, lastName } = submission.value;
+  const { image, firstName, lastName, showEmail } = submission.value;
 
   // Handle image
   if (image) {
@@ -89,6 +89,14 @@ export async function profile(
         last_name = $2
     WHERE id = $3;`,
     [firstName, lastName, userId],
+  );
+
+  // Handle email visibility
+  await sql.query(
+    `UPDATE "user"
+   SET show_email = $1
+   WHERE id = $2;`,
+    [showEmail ?? false, userId],
   );
 
   revalidatePath("/profile");
