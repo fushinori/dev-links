@@ -9,6 +9,7 @@ import { profile } from "@/app/lib/actions";
 import Input from "@/app/ui/user-authentication/input-component";
 import ProfilePictureSelector from "@/app/ui/profile-picture-selector";
 import { PrimaryButton } from "@/app/ui/button/button-primary";
+import { Switch } from "@/app/ui/switch";
 import { cn } from "@/app/lib/utils";
 
 interface Props {
@@ -23,6 +24,7 @@ export default function ProfileForm({ user }: Props) {
     firstName: user.first_name ?? "",
     lastName: user.last_name ?? "",
     email: user.email,
+    showEmail: user.show_email ?? true,
     image: undefined,
   };
 
@@ -95,6 +97,8 @@ export default function ProfileForm({ user }: Props) {
           errors={fields.email.errors}
           readOnly={true}
         />
+
+        <Switch {...getInputProps(fields.showEmail, { type: "checkbox" })} />
       </div>
 
       <div className="fixed bottom-0 left-0 flex justify-end w-full p-4 md:p-6 bg-white border-grey-300 border-t-[1px]">

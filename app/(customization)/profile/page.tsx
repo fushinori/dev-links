@@ -42,7 +42,7 @@ interface Props {
 async function ProfileFormWrapper({ session }: Props) {
   const userId = session.userId;
   const { rows } = await sql.query<User>(
-    `SELECT first_name, last_name, email FROM "user" WHERE id = $1`,
+    `SELECT first_name, last_name, email, show_email FROM "user" WHERE id = $1`,
     [userId],
   );
 

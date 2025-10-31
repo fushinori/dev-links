@@ -15,7 +15,7 @@ export default async function Page({
 }) {
   const { code } = await params;
   const { rows } = await sql.query<UserInfo>(
-    `SELECT CONCAT_WS(' ', first_name, last_name) AS full_name, email, image, id FROM "user" WHERE profile_code = $1`,
+    `SELECT CONCAT_WS(' ', first_name, last_name) AS full_name, email, image, show_email, id FROM "user" WHERE profile_code = $1`,
     [code],
   );
   const user = rows[0];
@@ -23,7 +23,7 @@ export default async function Page({
     return notFound();
   }
 
-  const { id, full_name, email, image } = user;
+  const { id, full_name, email, image, show_email } = user;
   const name = full_name || "User 404";
   const avatar = image
     ? `${process.env.IMAGE_DOMAIN}/${image}`
@@ -82,7 +82,7 @@ export default async function Page({
               />
             </div>
             <h1 className="text-gray-700 font-bold text-3xl mb-1">{name}</h1>
-            <p className="text-gray-500 mb-14">{email}</p>
+            {show_email && <p className="text-gray-500">{email}</p>}
 
             <Suspense>
               <Links profileCode={code} />
@@ -111,7 +111,7 @@ async function Links({ profileCode }: LinkProps) {
   return (
     <section
       aria-label="Links"
-      className="flex flex-col gap-5 text-white w-full"
+      className="flex flex-col gap-5 text-white w-full mt-12"
     >
       {rows.map((link) => (
         <Link key={link.id} link={link} />
