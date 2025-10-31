@@ -27,3 +27,4 @@ CREATE TABLE link (
 
 ALTER TABLE "user" ADD COLUMN first_name TEXT;
 ALTER TABLE "user" ADD COLUMN last_name TEXT;
+ALTER TABLE "user" ADD COLUMN show_email BOOLEAN NOT NULL DEFAULT true;
