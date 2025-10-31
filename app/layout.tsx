@@ -9,7 +9,8 @@ const instrumentSans = Instrument_Sans({
 
 export const metadata: Metadata = {
   title: "Dev Links",
-  description: "Link sharing app for developers.",
+  description:
+    "Link sharing app for developers - create, customize, and share your professional links all in one place.",
 };
 
 export default function RootLayout({
