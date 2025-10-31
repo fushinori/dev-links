@@ -1,6 +1,6 @@
 # Dev Links
 
-Link sharing app for developers.
+Link sharing app for developers - create, customize, and share your professional links all in one place.
 
 ## Built with
 
@@ -31,3 +31,7 @@ Link sharing app for developers.
 ![](./screenshots/profile-desktop.png)
 
 </details>
+
+## Attribution
+
+[Designs](https://www.frontendmentor.io/challenges/linksharing-app-Fbt7yweGsT) provided by [Frontend Mentor](https://www.frontendmentor.io/).
