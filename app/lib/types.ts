@@ -122,12 +122,14 @@ export interface User {
   first_name: string | null;
   last_name: string | null;
   email: string;
+  show_email: boolean;
 }
 
 export interface UserInfo {
   id: string;
   full_name: string;
   email: string;
+  show_email: boolean;
   image: string | null;
 }
 
@@ -162,6 +164,7 @@ export const ProfileSchema = z.object({
           : "Please enter a valid email",
     })
     .optional(),
+  showEmail: z.boolean().optional(),
 });
 
 export type UploadResult =
