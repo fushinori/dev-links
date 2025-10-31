@@ -57,7 +57,7 @@ export default async function Page({
             />
           </div>
           <h1 className="text-grey-700 font-bold text-3xl mb-1">{name}</h1>
-          <p className="text-grey-500">{email}</p>
+          {show_email && <p className="text-gray-500">{email}</p>}
         </section>
 
         <Suspense>
@@ -72,7 +72,7 @@ export default async function Page({
 
         {/* Main content wrapper with padding so it doesn't overlap with nav bar */}
         <div className="relative z-10 py-40 grid place-items-center">
-          <section className="bg-white shadow-xl rounded-3xl flex flex-col justify-center items-center p-12">
+          <section className="bg-white shadow-xl rounded-3xl flex flex-col justify-center items-center p-12 min-w-[340px]">
             <div className="relative w-28 h-28 rounded-full border-purple-400 border-[3px] overflow-hidden mb-5">
               <Image
                 src={avatar}
