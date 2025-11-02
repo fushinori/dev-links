@@ -66,68 +66,70 @@ function LoginForm() {
   });
 
   return (
-    <form
-      id={form.id}
-      onSubmit={form.onSubmit}
-      action={action}
-      className="bg-white rounded-xl flex flex-col gap-10 md:min-w-96 md:p-10"
-      noValidate
-    >
-      <div>
-        <h1 className="text-grey-700 font-bold text-[1.5rem] md:text-3xl mb-2">
-          Login
-        </h1>
-        <p className="text-grey-500">
-          Add your details to get back into the app.
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-grey-700 text-xs">
-            Email address
-          </label>
-
-          <Input
-            key={fields.email.key}
-            name={fields.email.name}
-            defaultValue={fields.email.defaultValue}
-            type="email"
-            placeholder="e.g alex@email.com"
-            icon="/icon-email.svg"
-            errors={fields.email.errors}
-            className={fields.email.errors && "border-red-400"}
-          />
+    <main>
+      <form
+        id={form.id}
+        onSubmit={form.onSubmit}
+        action={action}
+        className="bg-white rounded-xl flex flex-col gap-10 md:min-w-96 md:p-10"
+        noValidate
+      >
+        <div>
+          <h1 className="text-grey-700 font-bold text-[1.5rem] md:text-3xl mb-2">
+            Login
+          </h1>
+          <p className="text-grey-500">
+            Add your details to get back into the app.
+          </p>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="password" className="text-grey-700 text-xs">
-            Password
-          </label>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-1">
+            <label htmlFor="email" className="text-grey-700 text-xs">
+              Email address
+            </label>
 
-          <Input
-            key={fields.password.key}
-            name={fields.password.name}
-            defaultValue={fields.password.defaultValue}
-            type="password"
-            placeholder="Enter your password"
-            icon="/icon-password.svg"
-            errors={fields.password.errors}
-            className={fields.password.errors && "border-red-400"}
-          />
+            <Input
+              key={fields.email.key}
+              name={fields.email.name}
+              defaultValue={fields.email.defaultValue}
+              type="email"
+              placeholder="e.g alex@email.com"
+              icon="/icon-email.svg"
+              errors={fields.email.errors}
+              className={fields.email.errors && "border-red-400"}
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="password" className="text-grey-700 text-xs">
+              Password
+            </label>
+
+            <Input
+              key={fields.password.key}
+              name={fields.password.name}
+              defaultValue={fields.password.defaultValue}
+              type="password"
+              placeholder="Enter your password"
+              icon="/icon-password.svg"
+              errors={fields.password.errors}
+              className={fields.password.errors && "border-red-400"}
+            />
+          </div>
+
+          <PrimaryButton>Login</PrimaryButton>
+
+          <div className="flex flex-col"></div>
+          <p className="text-grey-500 text-center">
+            Don&apos;t have an account? <br className="md:hidden" />
+            <Link className="text-purple-400" href="/signup">
+              Create account
+            </Link>
+          </p>
         </div>
-
-        <PrimaryButton>Login</PrimaryButton>
-
-        <div className="flex flex-col"></div>
-        <p className="text-grey-500 text-center">
-          Don&apos;t have an account? <br className="md:hidden" />
-          <Link className="text-purple-400" href="/signup">
-            Create account
-          </Link>
-        </p>
-      </div>
-    </form>
+      </form>
+    </main>
   );
 }
 
