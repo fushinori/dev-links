@@ -64,89 +64,87 @@ function SignUpForm() {
   });
 
   return (
-    <main>
-      <form
-        id={form.id}
-        onSubmit={form.onSubmit}
-        action={action}
-        className="bg-white rounded-xl flex flex-col gap-10 md:min-w-96 md:p-10"
-        noValidate
-      >
-        <div>
-          <h1 className="text-grey-700 font-bold text-[1.5rem] md:text-3xl mb-2">
-            Create account
-          </h1>
-          <p className="text-grey-500">
-            Let’s get you started sharing your links!
-          </p>
+    <form
+      id={form.id}
+      onSubmit={form.onSubmit}
+      action={action}
+      className="bg-white rounded-xl flex flex-col gap-10 md:min-w-96 md:p-10"
+      noValidate
+    >
+      <div>
+        <h1 className="text-grey-700 font-bold text-[1.5rem] md:text-3xl mb-2">
+          Create account
+        </h1>
+        <p className="text-grey-500">
+          Let’s get you started sharing your links!
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-1">
+          <label htmlFor="email" className="text-grey-700 text-xs">
+            Email address
+          </label>
+
+          <Input
+            key={fields.email.key}
+            name={fields.email.name}
+            defaultValue={fields.email.defaultValue}
+            type="email"
+            placeholder="e.g alex@email.com"
+            icon="/icon-email.svg"
+            errors={fields.email.errors}
+            className={fields.email.errors && "border-red-400"}
+          />
         </div>
 
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-1">
-            <label htmlFor="email" className="text-grey-700 text-xs">
-              Email address
-            </label>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="password" className="text-grey-700 text-xs">
+            Create password
+          </label>
 
-            <Input
-              key={fields.email.key}
-              name={fields.email.name}
-              defaultValue={fields.email.defaultValue}
-              type="email"
-              placeholder="e.g alex@email.com"
-              icon="/icon-email.svg"
-              errors={fields.email.errors}
-              className={fields.email.errors && "border-red-400"}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="text-grey-700 text-xs">
-              Create password
-            </label>
-
-            <Input
-              key={fields.password.key}
-              name={fields.password.name}
-              defaultValue={fields.password.defaultValue}
-              type="password"
-              placeholder="At least 8 characters"
-              icon="/icon-password.svg"
-              errors={fields.password.errors}
-              className={fields.password.errors && "border-red-400"}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label htmlFor="confirm-password" className="text-grey-700 text-xs">
-              Confirm password
-            </label>
-
-            <Input
-              key={fields.confirmPassword.key}
-              name={fields.confirmPassword.name}
-              defaultValue={fields.confirmPassword.defaultValue}
-              type="password"
-              placeholder="At least 8 characters"
-              icon="/icon-password.svg"
-              errors={fields.confirmPassword.errors}
-              className={fields.confirmPassword.errors && "border-red-400"}
-            />
-          </div>
-
-          <p className="text-grey-500 text-xs">
-            Password must contain at least 8 characters
-          </p>
-
-          <PrimaryButton>Create new account</PrimaryButton>
-          <p className="text-grey-500 text-center">
-            Already have an account? <br className="md:hidden" />
-            <Link className="text-purple-400" href="/login">
-              Login
-            </Link>
-          </p>
+          <Input
+            key={fields.password.key}
+            name={fields.password.name}
+            defaultValue={fields.password.defaultValue}
+            type="password"
+            placeholder="At least 8 characters"
+            icon="/icon-password.svg"
+            errors={fields.password.errors}
+            className={fields.password.errors && "border-red-400"}
+          />
         </div>
-      </form>
-    </main>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="confirm-password" className="text-grey-700 text-xs">
+            Confirm password
+          </label>
+
+          <Input
+            key={fields.confirmPassword.key}
+            name={fields.confirmPassword.name}
+            defaultValue={fields.confirmPassword.defaultValue}
+            type="password"
+            placeholder="At least 8 characters"
+            icon="/icon-password.svg"
+            errors={fields.confirmPassword.errors}
+            className={fields.confirmPassword.errors && "border-red-400"}
+          />
+        </div>
+
+        <p className="text-grey-500 text-xs">
+          Password must contain at least 8 characters
+        </p>
+
+        <PrimaryButton>Create new account</PrimaryButton>
+        <p className="text-grey-500 text-center">
+          Already have an account? <br className="md:hidden" />
+          <Link className="text-purple-400" href="/login">
+            Login
+          </Link>
+        </p>
+      </div>
+    </form>
   );
 }
 
