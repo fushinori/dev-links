@@ -26,7 +26,7 @@ export default function Link({ link }: Props) {
         className={cn("p-4 rounded-lg flex justify-between", websiteClassName)}
       >
         <div className="flex gap-2">
-          <Image src={icon} height={16} width={16} alt="" aria-hidden />
+          <Image src={icon} height={16} width={16} alt="" aria-hidden="true" />
           {link.website}
         </div>
         <Image

@@ -178,7 +178,7 @@ function GetStarted() {
           height={0}
           sizes="100vw"
           priority
-          aria-hidden
+          aria-hidden="true"
           className="w-full h-auto"
         />
       </div>

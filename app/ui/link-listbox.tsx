@@ -64,6 +64,7 @@ export default function LinkListBox({
                 alt=""
                 height={16}
                 width={16}
+                aria-hidden="true"
               />
             </button>
             <Legend className="font-bold text-grey-500">
@@ -91,7 +92,7 @@ export default function LinkListBox({
               <div className="flex gap-2">
                 <Image
                   src={selectedWebsite!.icon}
-                  alt=""
+                  alt={`${selectedWebsite?.name} Logo`}
                   height={16}
                   width={16}
                 />
@@ -103,6 +104,7 @@ export default function LinkListBox({
                 alt=""
                 height={16}
                 width={16}
+                aria-hidden="true"
               />
             </ListboxButton>
             <ListboxOptions

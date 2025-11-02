@@ -28,7 +28,7 @@ export default function Input({
           width={16}
           height={16}
           alt=""
-          aria-hidden={true}
+          aria-hidden="true"
         ></Image>
       )}
       {errors && <p className="text-sm text-red-400">{errors[0]}</p>}

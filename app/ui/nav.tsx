@@ -94,7 +94,7 @@ export default function NavBar() {
                   sizes="100vw"
                   className="w-5 h-auto"
                   alt=""
-                  aria-hidden
+                  aria-hidden="true"
                 />
                 <span
                   className={cn(
