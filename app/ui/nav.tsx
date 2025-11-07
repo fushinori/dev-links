@@ -54,10 +54,8 @@ export default function NavBar() {
           >
             <Image
               src={pathname === link.href ? link.iconActive : link.icon}
-              height={0}
-              width={0}
-              sizes="100vw"
-              className="w-5 h-auto"
+              height={20}
+              width={20}
               alt={link.name}
             ></Image>
           </Link>
@@ -89,10 +87,8 @@ export default function NavBar() {
               >
                 <Image
                   src={pathname === link.href ? link.iconActive : link.icon}
-                  height={0}
-                  width={0}
-                  sizes="100vw"
-                  className="w-5 h-auto"
+                  height={20}
+                  width={20}
                   alt=""
                   aria-hidden="true"
                 />
